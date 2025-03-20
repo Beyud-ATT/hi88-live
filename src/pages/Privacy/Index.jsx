@@ -7,11 +7,11 @@ export default function Privacy() {
         level={1}
         className="!text-[var(--color-brand-primary)]"
       >
-        Chính Sách Bảo Mật Thông Tin - SHBET
+        Chính Sách Bảo Mật Thông Tin - Hi88
       </Typography.Title>
       <p>
         {" "}
-        SHBET cam kết bảo vệ quyền riêng tư của khách hàng với các tiêu chuẩn an
+        Hi88 cam kết bảo vệ quyền riêng tư của khách hàng với các tiêu chuẩn an
         toàn dữ liệu cao nhất. Dưới đây là chính sách bảo mật của chúng tôi,
         được thiết kế nhằm đảm bảo an toàn thông tin cá nhân của bạn.{" "}
       </p>{" "}
@@ -19,15 +19,15 @@ export default function Privacy() {
         level={2}
         className="!text-[var(--color-brand-primary)]"
       >
-        1. Bảo Mật Thông Tin Cá Nhân tại SHBET
+        1. Bảo Mật Thông Tin Cá Nhân tại Hi88
       </Typography.Title>{" "}
       <p>
         {" "}
-        Tại SHBET, chúng tôi luôn giữ bảo mật tuyệt đối dữ liệu cá nhân của
-        khách hàng. Thông tin cá nhân chỉ được tiết lộ khi: <br /> - Có yêu cầu
-        từ cơ quan pháp luật hoặc lệnh từ tòa án. <br /> - Cần thiết để hoàn
-        thành dịch vụ thông qua các nhà cung cấp thanh toán uy tín và cơ quan
-        tài chính liên kết với SHBET.{" "}
+        Tại Hi88, chúng tôi luôn giữ bảo mật tuyệt đối dữ liệu cá nhân của khách
+        hàng. Thông tin cá nhân chỉ được tiết lộ khi: <br /> - Có yêu cầu từ cơ
+        quan pháp luật hoặc lệnh từ tòa án. <br /> - Cần thiết để hoàn thành
+        dịch vụ thông qua các nhà cung cấp thanh toán uy tín và cơ quan tài
+        chính liên kết với Hi88.{" "}
       </p>{" "}
       <Typography.Title
         level={2}
@@ -50,8 +50,8 @@ export default function Privacy() {
       </Typography.Title>{" "}
       <p>
         {" "}
-        - Khi khách hàng không thể truy cập vào trang web của SHBET có thể gửi
-        tin nhắn trực tiếp đến email chính thức admin@SHBET.com hệ thống sẽ phản
+        - Khi khách hàng không thể truy cập vào trang web của Hi88 có thể gửi
+        tin nhắn trực tiếp đến email chính thức admin@Hi88.com hệ thống sẽ phản
         hồi tự động gửi đường link truy cập mới nhất.{" "}
       </p>{" "}
       <p>
@@ -62,12 +62,12 @@ export default function Privacy() {
         level={2}
         className="!text-[var(--color-brand-primary)]"
       >
-        SHBET - Nơi Khách Hàng Đặt Niềm Tin
+        Hi88 - Nơi Khách Hàng Đặt Niềm Tin
       </Typography.Title>{" "}
       <p>
         {" "}
         Với chính sách bảo mật minh bạch, hệ thống công nghệ tiên tiến và cam
-        kết bảo vệ quyền lợi khách hàng, SHBET mang đến sự an tâm tuyệt đối. Hãy
+        kết bảo vệ quyền lợi khách hàng, Hi88 mang đến sự an tâm tuyệt đối. Hãy
         đồng hành cùng chúng tôi để trải nghiệm dịch vụ an toàn và chuyên
         nghiệp.{" "}
       </p>

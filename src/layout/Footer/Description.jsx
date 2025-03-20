@@ -1,6 +1,5 @@
 import { Flex, Image } from "antd";
-import LogoImg1 from "../../assets/footer-1.png";
-import LogoImg2 from "../../assets/footer-2.png";
+import FooterLogo from "../../assets/footer-logo.png";
 import { useState } from "react";
 
 export default function Description() {
@@ -9,8 +8,7 @@ export default function Description() {
   return (
     <Flex vertical gap={36}>
       <Flex align="center" justify="center" gap={2}>
-        <Image preview={false} src={LogoImg1} alt="logo" loading="lazy" />
-        <Image preview={false} src={LogoImg2} alt="logo" loading="lazy" />
+        <Image preview={false} src={FooterLogo} alt="logo" loading="lazy" />
       </Flex>
       {!showMore ? (
         <p className="max-w-2xl text-sm text-justify">

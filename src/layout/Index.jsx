@@ -16,11 +16,11 @@ function BaseLayout() {
   const isLivePage = useLocation().pathname.includes("live");
   const isShow = !isUserPage && !isLiveMobilePage && !isLivePage;
   const { deviceType } = useDevice();
-  const isMobile =
-    (deviceType === screenType.MOBILE || deviceType === screenType.TABLET) &&
-    !isLiveMobilePage &&
-    !isLivePage &&
-    !isUserPage;
+  // const isMobile =
+  //   (deviceType === screenType.MOBILE || deviceType === screenType.TABLET) &&
+  //   !isLiveMobilePage &&
+  //   !isLivePage &&
+  //   !isUserPage;
 
   return (
     <LayoutContext.Provider value={{ Header, Footer, Sider, Content }}>
@@ -41,7 +41,7 @@ function BaseLayout() {
             <Outlet />
           </BaseContent>
           {isShow && <BaseFooter />}
-          {isMobile && <MobileFooter />}
+          {/* {isMobile && <MobileFooter />} */}
         </Layout>
       </Flex>
     </LayoutContext.Provider>

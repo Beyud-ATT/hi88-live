@@ -65,7 +65,7 @@ const LiveSection = () => {
                   <i
                     className={`${
                       isSelected
-                        ? "shbet-icon-banner-arrow-left z-0 md:block hidden"
+                        ? "hi88-icon-banner-arrow-left z-0 md:block hidden"
                         : ""
                     }`}
                   ></i>

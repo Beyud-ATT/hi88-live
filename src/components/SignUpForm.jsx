@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import PhoneInputField from "./PhoneInputField";
 import { useModal } from "./CompoundModal";
 import useRecaptcha from "../hooks/useRecaptcha";
-import LogoImg from "../assets/login_signup.png";
+import LogoImg from "../assets/logo.png";
 
 export default function SignUpForm() {
   const phoneNumberRef = useRef(null);

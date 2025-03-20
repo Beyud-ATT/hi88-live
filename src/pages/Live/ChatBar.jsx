@@ -42,7 +42,7 @@ function EmojiPickerCustom({ onPickEmoji, open, onChange }) {
     <>
       <Button
         type="text"
-        className="text-xl !text-[var(--color-brand-primary-lighter)] focus:!text-[var(--color-brand-primary-lighter)]"
+        className="text-xl !text-[var(--color-brand-primary)] focus:!text-[var(--color-brand-primary)]"
         icon={<FaRegSmile />}
         onClick={handleTrigger}
       />
@@ -66,7 +66,7 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(false);
+  const [allowChat, setAllowChat] = useState(true);
 
   const { isAuthenticated } = useAuth();
   const {
@@ -210,20 +210,20 @@ export default function ChatBar({ ...rest }) {
                     : "Bạn chưa thể chat lúc này"
                 }
                 className={`flex-1 
-                bg-[#3A3B3C] 
-                hover:bg-[#3A3B3C]
-                focus:bg-[#3A3B3C] 
-                focus-within:bg-[#3A3B3C] 
-                focus:border-[var(--color-brand-primary-lighter)] 
-                focus-within:border-[var(--color-brand-primary-lighter)] 
-                hover:border-[var(--color-brand-primary-lighter)] 
+                bg-[#F1F1F1] 
+                hover:bg-[#F1F1F1]
+                focus:bg-[#F1F1F1] 
+                focus-within:bg-[#F1F1F1] 
+                focus:border-[var(--color-brand-primary)] 
+                focus-within:border-[var(--color-brand-primary)] 
+                hover:border-[var(--color-brand-primary)] 
                 px-3 py-1.5 
-                text-white
-                placeholder-gray-200
+                text-black
+                placeholder-black
                 `}
                 classNames={{
-                  textarea: "placeholder-gray-200 ",
-                  count: "!text-[var(--color-brand-primary-lighter)]",
+                  textarea: "placeholder-black ",
+                  count: "!text-[var(--color-brand-primary)]",
                 }}
                 onPressEnter={(e) => {
                   e.preventDefault();
@@ -253,19 +253,19 @@ export default function ChatBar({ ...rest }) {
                     : "Bạn chưa thể chat lúc này"
                 }
                 className={`flex-1 
-                bg-[#3A3B3C] 
-                hover:bg-[#3A3B3C]
-                focus:bg-[#3A3B3C] 
-                focus-within:bg-[#3A3B3C] 
-                focus:border-[var(--color-brand-primary-lighter)] 
-                focus-within:border-[var(--color-brand-primary-lighter)] 
-                hover:border-[var(--color-brand-primary-lighter)] 
+                bg-[#F1F1F1] 
+                hover:bg-[#F1F1F1]
+                focus:bg-[#F1F1F1] 
+                focus-within:bg-[#F1F1F1] 
+                focus:border-[var(--color-brand-primary)] 
+                focus-within:border-[var(--color-brand-primary)] 
+                hover:border-[var(--color-brand-primary)] 
                 px-3 py-1.5 
-                text-white
-                placeholder-gray-200
+                text-black
+                placeholder-black
                 `}
                 classNames={{
-                  textarea: "placeholder-gray-200",
+                  textarea: "placeholder-black",
                 }}
                 disabled={!allowChat}
               />
@@ -275,7 +275,7 @@ export default function ChatBar({ ...rest }) {
               {isIdol && (
                 <button
                   type="button"
-                  className="text-[var(--color-brand-primary-lighter)]"
+                  className="text-[var(--color-brand-primary)]"
                   onClick={toggleSendCode}
                 >
                   {isSendCode ? (
@@ -294,24 +294,27 @@ export default function ChatBar({ ...rest }) {
 
               <button
                 type="submit"
-                className="text-[var(--color-brand-primary-lighter)]"
+                className="text-[var(--color-brand-primary)]"
               >
                 <IoSendSharp size={20} />
               </button>
             </div>
           </div>
         ) : (
-          <div className="w-full py-2">
-            <Flex vertical justify="center" align="center" gap={4}>
-              <Typography.Title level={5} className="!text-white">
+          <div className="w-full md:py-2">
+            <Flex vertical justify="center" align="center">
+              <Typography.Title
+                level={5}
+                className="md:!text-auto !text-[14px]"
+              >
                 Nhớ 8 với những người xem chung nhé!
               </Typography.Title>
-              <Typography.Text>
+              <Typography.Text className="md:!text-auto !text-[12px]">
                 Đăng nhập để tham gia trò chuyện!
               </Typography.Text>
               <button
                 type="button"
-                className={`text-[var(--color-brand-primary)] w-full p-2 rounded-lg mt-3 !bg-[var(--color-brand-primary-lighter)]`}
+                className={`text-[var(--color-brand-primary-lighter)] w-full md:p-2 p-1 rounded-lg md:mt-3 mt-1 !bg-[var(--color-brand-primary)]`}
                 onClick={() => document.getElementById("login-button")?.click()}
               >
                 Đăng nhập
@@ -334,6 +337,7 @@ export default function ChatBar({ ...rest }) {
     handleFocus,
     isEmoOpen,
     handlePickEmoji,
+    allowChat,
   ]);
 
   return ChatBarMemoized;

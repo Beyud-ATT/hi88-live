@@ -8,8 +8,7 @@ import { useCallback, useEffect } from "react";
 import { FaEye, FaShare } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import Countdown from "../../components/CountDown";
-import LiveTabs from "../Live/LiveTabs";
-import IdolRating from "../../components/IdolRating";
+import { ChatInterface } from "../Live/Chat";
 
 const ViewerCount = ({ liveDetailData }) => {
   const { viewer } = useSignalR();
@@ -55,10 +54,6 @@ export default function LiveMobile() {
   return (
     <div
       className={`relative w-full h-[100dvh] overflow-hidden transition-all duration-300 ease-in-out`}
-      style={{
-        background:
-          "radial-gradient(71.52% 71.52% at 50% 50%, #58F8FE 0%, #FFF 100%)",
-      }}
     >
       <div
         className={`w-full overflow-hidden flex flex-col justify-between h-full`}
@@ -84,14 +79,18 @@ export default function LiveMobile() {
           <div className="flex items-center justify-center gap-2">
             <button
               onClick={handleShare}
-              className={`text-[var(--color-brand-primary-lighter)] 
-                xl:text-base text-[12px] 
-                flex items-center space-x-2 rounded-full
-                bg-[var(--color-brand-primary)] 
-                py-1 px-2 animate-blink`}
+              className={`text-white 
+              xl:text-base md:text-[12px] text-[10px] 
+              flex items-center space-x-2 rounded-lg
+              border-[2px] border-[#F81E02]
+              py-1 px-2 animate-blink whitespace-nowrap`}
+              style={{
+                background:
+                  "linear-gradient(180deg, #FB543F 0%, #F91E02 20%, #F91E02 100%)",
+              }}
             >
-              <FaShare />
-              <span>Chia sẻ</span>
+              <FaShare className="text-lg" />
+              <span className="text-sm">Chia sẻ</span>
             </button>
             <IoCloseSharp
               className="text-black text-2xl"
@@ -102,11 +101,16 @@ export default function LiveMobile() {
 
         <div className="absolute top-[9%] left-0 w-full z-0 px-2">
           <LivestreamPlayerMobile liveId={id} />
-          <IdolRating />
         </div>
 
-        <div className="z-10 mx-2 mb-2">
-          <LiveTabs />
+        <div
+          className="h-fit border border-[var(--color-brand-primary)] rounded-xl mx-2 mb-2"
+          style={{ boxShadow: "0px 2px 0px 0px #02A9DC" }}
+        >
+          <div className="uppercase bg-[var(--color-brand-primary)] text-[#F8E54F] text-xl rounded-t-lg text-center font-bold py-[10px]">
+            bình luận
+          </div>
+          <ChatInterface />
         </div>
       </div>
     </div>

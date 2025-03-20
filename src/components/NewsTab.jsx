@@ -31,15 +31,7 @@ function NewsTab() {
             id: `tab${i++}`,
           };
         })
-      : [
-          {
-            title:
-              "Sự kiện hot xem livestream bốc iphone: 20H-23H THỨ 5 HÀNG TUẦN",
-            content: News,
-            description: "",
-            id: `tab${i++}`,
-          },
-        ];
+      : [];
   }, [news, i]);
 
   useEffect(() => {

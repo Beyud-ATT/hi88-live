@@ -5,7 +5,7 @@ import useRecaptcha from "../hooks/useRecaptcha";
 import { GoogleAuthProvider } from "../contexts/GoogleAuthContext";
 import { useModal } from "./CompoundModal";
 import ForgotPassword from "./ForgotPassword";
-import LogoImg from "../assets/login_signup.png";
+import LogoImg from "../assets/logo.png";
 
 export default function LoginForm() {
   const { login } = useAuth();

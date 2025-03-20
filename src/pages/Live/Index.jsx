@@ -8,8 +8,7 @@ import LivestreamPlayer from "../../components/VideoPlayer";
 import { useNavigate, useParams } from "react-router";
 import { screenType, useDevice } from "../../contexts/ResponsiveContext";
 import { useEffect } from "react";
-import LiveTabs from "./LiveTabs";
-import IdolRating from "../../components/IdolRating";
+import { ChatInterface } from "./Chat";
 
 const LivestreamDetail = ({ ...props }) => {
   const { id } = useParams();
@@ -39,9 +38,17 @@ const LivestreamDetail = ({ ...props }) => {
           md={{ flex: "35%" }}
           lg={{ flex: "35%" }}
           xl={{ flex: "30%" }}
-          className="!overflow-hidden"
+          className="!overflow-hidden px-2"
         >
-          <LiveTabs />
+          <div
+            className="w-full h-fit border border-[var(--color-brand-primary)] rounded-xl"
+            style={{ boxShadow: "0px 2px 0px 0px #02A9DC" }}
+          >
+            <div className="uppercase bg-[var(--color-brand-primary)] text-[#F8E54F] text-xl rounded-t-lg text-center font-bold py-[10px]">
+              bình luận
+            </div>
+            <ChatInterface />
+          </div>
         </Col>
       </Row>
       {/* <div className="mt-16">
@@ -56,9 +63,6 @@ const LivestreamDetail = ({ ...props }) => {
       {/* <div>
         <IdolHot />
       </div> */}
-      <div>
-        <IdolRating />
-      </div>
       <div className="md:mt-8 mt-2">
         <NewsTab />
       </div>

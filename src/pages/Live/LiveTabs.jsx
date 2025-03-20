@@ -21,7 +21,7 @@ export default function LiveTabs() {
       defaultActiveKey="1"
       type="card"
       items={items}
-      className="bg-[var(--color-brand-primary)]"
+      className="bg-[var(--color-brand-primary)] "
     />
   );
 }

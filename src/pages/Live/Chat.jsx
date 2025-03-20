@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import ChatBar from "./ChatBar";
 import { useSignalR } from "../../contexts/SIgnalRContext";
-import { FaBell, FaCrown, FaRegEyeSlash } from "react-icons/fa";
+import { FaCrown, FaRegEyeSlash } from "react-icons/fa";
 import { useParams } from "react-router";
 import useLiveDetail from "../../hooks/useLiveDetail";
 import parse from "html-react-parser";
@@ -14,7 +14,7 @@ import useScrollDirection from "../../hooks/useScrollDirection";
 import useMobileKeyboardOpen from "../../hooks/useMobileKeyboardOpen";
 import { chatHeightSetting } from "../../utils/constant";
 
-function ShowMore({ message, show }) {
+function ShowMore({ message, show, ...rest }) {
   const [showMore, setShowMore] = useState(false);
   const messageLength = 30;
   const messageHasBreak = String(message).includes("<br/>");
@@ -35,11 +35,12 @@ function ShowMore({ message, show }) {
 
   return (
     <span
-      className="space-x-1 cursor-pointer"
+      className="space-x-1 cursor-pointer text-[#9C9C9C]"
       onClick={(e) => {
         e.stopPropagation();
         setShowMore((state) => !state);
       }}
+      {...rest}
     >
       {(show !== undefined ? show : showMore) ? (
         <span>{parse(message)}</span>
@@ -91,13 +92,20 @@ function PinnedMessage() {
 
   return (
     messages?.length > 0 && (
-      <div className="cursor-pointer bg-[#24252F]" onClick={handleMessageClick}>
-        <div className="max-w-full px-4 py-3">
+      <div
+        className="cursor-pointer bg-[#D9F8FF] rounded-lg"
+        onClick={handleMessageClick}
+      >
+        <div className="max-w-full px-4 py-1">
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 overflow-hidden min-w-0 justify-center text-[var(--color-brand-primary-lighter)] font-semibold">
+            <div className="flex items-center gap-3 overflow-hidden min-w-0 justify-center text-[#E71818] font-semibold">
               <span className="flex-shrink-0">{currentMessageIndex + 1}. </span>
               <div className="overflow-hidden">
-                <ShowMore message={messages[currentMessageIndex]} show={show} />
+                <ShowMore
+                  message={messages[currentMessageIndex]}
+                  show={show}
+                  style={{ color: "#E71818" }}
+                />
               </div>
             </div>
 
@@ -105,14 +113,14 @@ function PinnedMessage() {
               {show ? (
                 <button type="button" className="m-1 cursor-pointer">
                   <IoMdArrowDropup
-                    className="text-[var(--color-brand-primary-lighter)] text-2xl cursor-pointer"
+                    className="text-[#E71818] text-2xl cursor-pointer"
                     onClick={toggleShow}
                   />
                 </button>
               ) : (
                 <button type="button" className="m-1 cursor-pointer">
                   <IoMdArrowDropdown
-                    className="text-[var(--color-brand-primary-lighter)] text-2xl cursor-pointer"
+                    className="text-[#E71818] text-2xl cursor-pointer"
                     onClick={toggleShow}
                   />
                 </button>
@@ -126,7 +134,7 @@ function PinnedMessage() {
 }
 
 function WarningAndPinnedComment() {
-  const message = `Chào mừng bạn đến với phòng Live SHBET. Tại đây Admin thiết lập môi
+  const message = `Chào mừng bạn đến với phòng Live Hi88. Tại đây Admin thiết lập môi
             trường thân thiện hài hòa. Tất cả nội dung lạm dụng, thô tục và nhạy
             cảm sẽ bị chặn. Hội viên chú ý giữ an toàn tài sản của bạn vui lòng
             không chuyển tiền riêng để tránh bị lừa đảo.`;
@@ -136,8 +144,10 @@ function WarningAndPinnedComment() {
       <div className="p-2">
         <p className="text-[var(--color-brand-primary-lighter)] space-x-1 text-justify">
           <span className="space-x-1">
-            <FaBell className="inline-block p-1 rounded-full text-xl bg-gray-400 -translate-y-0.5" />
-            <span className="text-[#00EAFF]">ADMIN SHBET:</span>
+            {/* <FaBell className="inline-block p-1 rounded-full text-xl bg-gray-400 -translate-y-0.5" /> */}
+            <span className="text-[var(--color-brand-primary)] font-bold">
+              Hệ thống:
+            </span>
           </span>
           <ShowMore message={message} />
         </p>
@@ -300,20 +310,15 @@ function ChatInterface({ ...rest }) {
 
   return (
     <div
-      className={`flex flex-col h-full w-full justify-between ${chatHeightSetting}`}
+      className={`flex flex-col md:h-full w-full justify-between ${chatHeightSetting}`}
       {...rest}
     >
       <ChatFrame
         style={{
-          backgroundColor: "var(--color-brand-primary)",
           borderRadius: `${isMobile ? "8px 8px 0 0" : "none"}`,
         }}
       />
-      <div
-        className={`py-3 px-2 bg-[var(--color-brand-primary)] ${
-          isMobile && "rounded-b-lg"
-        }`}
-      >
+      <div className={`py-3 px-2 ${isMobile && "rounded-b-lg"}`}>
         <ChatBar />
       </div>
     </div>

@@ -45,13 +45,13 @@ export default function BaseHeader({ ...rest }) {
 
       <div className="bg-[var(--color-brand-primary)]">
         <Flex
-          className="h-[42px] max-w-screen-xl mx-auto"
+          className="h-[42px] max-w-screen-xl md:mx-auto md:w-full w-[95vw]"
           justify="center"
           align="center"
         >
           <Flex className="h-full" align="center">
             <Link to="https://shb27.com/" target="_blank">
-              <Flex align="center" justify="center" gap={8} className="px-4">
+              <Flex align="center" justify="center" className="md:px-4 px-2">
                 <Image
                   src={Speaker}
                   alt="speaker icon"

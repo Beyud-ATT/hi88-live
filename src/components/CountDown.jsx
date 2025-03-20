@@ -14,9 +14,9 @@ const Countdown = ({ time }) => {
       className="flex justify-center items-center gap-2 py-1 px-3 rounded-lg border"
       style={{ borderRadius: 6.49, background: "rgba(86, 86, 86, 0.64)" }}
     >
-      <div className="flex flex-col gap-2 items-center text-white lg:!text-[12px] md:!text-[10px] !text-[8px]">
-        <div className={`font-bold text-[16px]`}>Live sẽ bắt đầu sau</div>
-        <div className="mx-auto flex items-center gap-2 pb-1">
+      <div className="flex flex-col md:gap-2 gap-1 items-center text-white lg:!text-[12px] md:!text-[10px] !text-[8px]">
+        <div className={`font-bold md:text-[16px]`}>Live sẽ bắt đầu sau</div>
+        <div className="mx-auto flex items-center md:gap-2 gap-1 pb-1">
           <CountdownItem unit="Day" timeToCount={time} />
           <CountdownItem unit="Hour" timeToCount={time} />
           <CountdownItem unit="Minute" timeToCount={time} />
@@ -32,8 +32,10 @@ const CountdownItem = ({ unit, text, timeToCount }) => {
 
   return (
     <div className="w-full">
-      <div className="flex items-center w-full overflow-hidden bg-black px-2 py-1 rounded-md font-bold">
-        <span ref={ref}>{time}</span>
+      <div className="flex items-center w-full overflow-hidden bg-black md:px-2 px-1 py-1 rounded-md font-bold">
+        <span className="" ref={ref}>
+          {time}
+        </span>
         {text && <span className="mr-1">{text}</span>}
       </div>
     </div>
