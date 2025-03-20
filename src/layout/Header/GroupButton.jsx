@@ -29,7 +29,7 @@ export default function GroupButton() {
             }}
             style={{
               background:
-                "radial-gradient(71.52% 71.52% at 50% 100%, #58F8FE 0%, #FFF 100%)",
+                "radial-gradient(71.52% 71.52% at 50% 100%, var(--color-brand-primary) 0%, #FFF 100%)",
             }}
           >
             <LoginForm />
@@ -56,7 +56,7 @@ export default function GroupButton() {
             }}
             style={{
               background:
-                "radial-gradient(71.52% 71.52% at 50% 100%, #58F8FE 0%, #FFF 100%)",
+                "radial-gradient(71.52% 71.52% at 50% 100%, var(--color-brand-primary) 0%, #FFF 100%)",
             }}
           >
             <SignUpForm />
