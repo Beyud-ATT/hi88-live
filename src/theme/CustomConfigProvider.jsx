@@ -18,7 +18,7 @@ export default function CustomConfigProvider({ children }) {
           },
           Menu: {
             itemBg: "var(--background-color)",
-            itemColor: "var(--text-color)",
+            itemColor: "var(--color-brand-primary-lighter)",
             itemHoverColor: "var(--color-brand-primary)",
             itemSelectedColor: "var(--color-brand-primary)",
             itemSelectedBg: "var(--color-brand-primary-lighter)",
@@ -26,7 +26,7 @@ export default function CustomConfigProvider({ children }) {
             horizontalItemHoverColor: "var(--color-brand-primary)",
             horizontalItemSelectedColor: "var(--color-brand-primary)",
             horizontalLineHeight: "40px !important",
-            groupTitleColor: "var(--text-color)",
+            groupTitleColor: "var(--color-brand-primary-lighter)",
           },
           Table: {
             headerBg: "var(--color-brand-primary)",
