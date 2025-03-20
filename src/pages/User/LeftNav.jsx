@@ -24,7 +24,7 @@ const menuItems = [
   {
     key: "home",
     icon: <FaHome />,
-    label: <Link to="https://shviet999.live/">Trang chủ</Link>,
+    label: <Link to="">Trang chủ</Link>,
     extra: <FaChevronRight className="text-gray-400" />,
   },
   {

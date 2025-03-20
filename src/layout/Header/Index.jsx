@@ -50,7 +50,7 @@ export default function BaseHeader({ ...rest }) {
           align="center"
         >
           <Flex className="h-full" align="center">
-            <Link to="https://shb27.com/" target="_blank">
+            <Link to="" target="_blank">
               <Flex align="center" justify="center" className="md:px-4 px-2">
                 <Image
                   src={Speaker}

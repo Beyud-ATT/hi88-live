@@ -5,13 +5,13 @@ import { Link } from "react-router";
 export const items = [
   {
     label: (
-      <Link to="https://shb27.com/" target="_blank">
+      <Link to="" target="_blank">
         Trang chủ
       </Link>
     ),
     key: "home",
     render: (props) => (
-      <Link to="https://shb27.com/" target="_blank" {...props}>
+      <Link to="" target="_blank" {...props}>
         Trang chủ
       </Link>
     ),
@@ -48,7 +48,7 @@ export const items = [
     label: "Tải App",
     key: "download",
     render: (props) => (
-      <Link to="https://shb27.com/taiapp" target="_blank" {...props}>
+      <Link to="taiapp" target="_blank" {...props}>
         Tải App
       </Link>
     ),

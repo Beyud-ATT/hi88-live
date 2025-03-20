@@ -5,7 +5,7 @@ import { Link } from "react-router";
 export default function Logo(props) {
   return (
     <>
-      <Link to="https://shb27.com" target="_blank">
+      <Link to="" target="_blank">
         <Image
           src={LogoImg}
           alt="logo"
