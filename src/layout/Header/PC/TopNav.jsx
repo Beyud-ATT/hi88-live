@@ -11,7 +11,12 @@ export const items = [
     ),
     key: "home",
     render: (props) => (
-      <Link to="" target="_blank" {...props}>
+      <Link
+        to=""
+        target="_blank"
+        {...props}
+        className="!text-[var(--color-brand-primary)]"
+      >
         Trang chủ
       </Link>
     ),
@@ -20,7 +25,7 @@ export const items = [
     label: "Live",
     key: "live",
     render: (props) => (
-      <Link to="/" {...props}>
+      <Link to="/" {...props} className="!text-[var(--color-brand-primary)]">
         Live
       </Link>
     ),
@@ -29,7 +34,7 @@ export const items = [
     label: "Liveshow",
     key: "liveshow",
     render: (props) => (
-      <Link to="/" {...props}>
+      <Link to="/" {...props} className="!text-[var(--color-brand-primary)]">
         Liveshow
       </Link>
     ),
@@ -39,7 +44,7 @@ export const items = [
     label: "Game +",
     key: "game",
     render: (props) => (
-      <Link to="/" {...props}>
+      <Link to="/" {...props} className="!text-[var(--color-brand-primary)]">
         Game+
       </Link>
     ),
@@ -48,7 +53,12 @@ export const items = [
     label: "Tải App",
     key: "download",
     render: (props) => (
-      <Link to="taiapp" target="_blank" {...props}>
+      <Link
+        to="taiapp"
+        target="_blank"
+        {...props}
+        className="!text-[var(--color-brand-primary)]"
+      >
         Tải App
       </Link>
     ),

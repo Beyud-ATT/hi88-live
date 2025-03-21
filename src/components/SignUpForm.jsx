@@ -6,6 +6,7 @@ import PhoneInputField from "./PhoneInputField";
 import { useModal } from "./CompoundModal";
 import useRecaptcha from "../hooks/useRecaptcha";
 import LogoImg from "../assets/logo.png";
+import { inputStyle } from "./LoginForm";
 
 export default function SignUpForm() {
   const phoneNumberRef = useRef(null);
@@ -64,10 +65,7 @@ export default function SignUpForm() {
                 },
               ]}
             >
-              <Input
-                placeholder="Tên hiển thị"
-                className="h-12 bg-white/10 border border-gray-600 rounded-lg"
-              />
+              <Input placeholder="Tên hiển thị" className={inputStyle} />
             </Form.Item>
 
             <Form.Item
@@ -81,7 +79,7 @@ export default function SignUpForm() {
               <Input
                 autoComplete="new-username"
                 placeholder="Tên tài khoản"
-                className="h-12 bg-white/10 border border-gray-600 rounded-lg"
+                className={inputStyle}
               />
             </Form.Item>
 
@@ -92,12 +90,10 @@ export default function SignUpForm() {
                 { type: "email", message: "Email không hợp lệ!" },
               ]}
             >
-              <Input
-                placeholder="Email"
-                className="h-12 bg-white/10 border border-gray-600 rounded-lg"
-              />
+              <Input placeholder="Email" className={inputStyle} />
             </Form.Item>
           </Col>
+
           <Col span={12} xs={24} md={12} className="md:pl-2">
             <Form.Item
               name="password"
@@ -124,7 +120,7 @@ export default function SignUpForm() {
               <Input.Password
                 autoComplete="new-password"
                 placeholder="Mật khẩu"
-                className="h-12 bg-white/10 border border-gray-600 rounded-lg signup-password-field"
+                className={inputStyle}
                 iconRender={(visible) =>
                   visible ? <FaRegEye /> : <FaRegEyeSlash />
                 }
@@ -148,7 +144,7 @@ export default function SignUpForm() {
             >
               <Input.Password
                 placeholder="Xác nhận mật khẩu"
-                className="h-12 bg-white/10 border border-gray-600 rounded-lg signup-password-field"
+                className={inputStyle}
                 iconRender={(visible) =>
                   visible ? <FaRegEye /> : <FaRegEyeSlash />
                 }
@@ -163,6 +159,7 @@ export default function SignUpForm() {
               />
             </Form.Item>
           </Col>
+
           <Col span={24}>
             <Form.Item
               name="captcha"
@@ -186,11 +183,13 @@ export default function SignUpForm() {
                 <Input
                   type="text"
                   placeholder="Nhập mã captcha"
-                  className="h-12 bg-white/10 border border-gray-600 rounded-lg"
+                  className={inputStyle}
+                  suffix={
+                    <div className="py-1 px-2 rounded-lg bg-[#879497] tracking-widest text-white font-bold">
+                      {recaptcha}
+                    </div>
+                  }
                 />
-                <div className="absolute right-2 top-1/4 py-0.5 px-2 rounded-md bg-[#E6DBCD] text-[#134B3E] font-bold italic">
-                  {recaptcha}
-                </div>
               </div>
             </Form.Item>
           </Col>
@@ -200,13 +199,13 @@ export default function SignUpForm() {
           <Button
             type="primary"
             htmlType="submit"
-            className="w-full h-12 bg-[var(--color-brand-primary)] hover:!bg-[var(--color-brand-primary)] border-none rounded-lg text-lg font-medium"
+            className="w-full h-12 bg-[var(--color-brand-primary)] hover:!bg-[var(--color-brand-primary)] shadow-none border-none rounded-lg text-lg font-medium"
           >
             Đăng ký
           </Button>
         </Form.Item>
 
-        <div className="text-center text-[#515151]">
+        <div className="text-center text-black">
           Bạn đã có tài khoản?{" "}
           <span
             href="#"

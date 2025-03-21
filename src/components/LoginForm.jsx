@@ -1,11 +1,16 @@
 import { Button, Flex, Form, Image, Input } from "antd";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { FaRegEye, FaRegEyeSlash, FaRegUser } from "react-icons/fa6";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { GoShieldCheck } from "react-icons/go";
 import { useAuth } from "../contexts/AuthContext";
 import useRecaptcha from "../hooks/useRecaptcha";
 import { GoogleAuthProvider } from "../contexts/GoogleAuthContext";
 import { useModal } from "./CompoundModal";
 import ForgotPassword from "./ForgotPassword";
 import LogoImg from "../assets/logo.png";
+
+export const inputStyle =
+  "h-12 rounded-lg bg-[var(--color-brand-primary-lighter-2)] border-[2px] !border-[var(--color-brand-primary)] focus:shadow-none focus:outline-none";
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -46,7 +51,11 @@ export default function LoginForm() {
           <Input
             autoComplete="new-username"
             placeholder="Nhập tài khoản"
-            className="h-12 bg-white/10 border border-gray-600 rounded-lg"
+            className={inputStyle}
+            prefix={<FaRegUser className="text-[var(--color-brand-primary)]" />}
+            classNames={{
+              input: "",
+            }}
           />
         </Form.Item>
 
@@ -57,7 +66,10 @@ export default function LoginForm() {
           <Input.Password
             autoComplete="new-password"
             placeholder="Nhập mật khẩu"
-            className="h-12 bg-white/10 border border-gray-600 rounded-lg login-form-password"
+            className={inputStyle}
+            prefix={
+              <RiLockPasswordLine className="text-[var(--color-brand-primary)]" />
+            }
             iconRender={(visible) =>
               visible ? <FaRegEye /> : <FaRegEyeSlash />
             }
@@ -86,11 +98,16 @@ export default function LoginForm() {
             <Input
               type="text"
               placeholder="Nhập mã captcha"
-              className="h-12 bg-white/10 border border-gray-600 rounded-lg"
+              className={inputStyle}
+              prefix={
+                <GoShieldCheck className="text-[var(--color-brand-primary)]" />
+              }
+              suffix={
+                <div className="py-1 px-2 rounded-lg bg-[#879497] tracking-widest text-white font-bold">
+                  {recaptcha}
+                </div>
+              }
             />
-            <div className="absolute right-2 top-1/4 py-0.5 px-2 rounded-md bg-[#E6DBCD] text-[#134B3E] font-bold italic">
-              {recaptcha}
-            </div>
           </div>
         </Form.Item>
 
@@ -107,16 +124,15 @@ export default function LoginForm() {
           <Button
             type="primary"
             htmlType="submit"
-            className="w-full h-12 bg-[var(--color-brand-primary)] hover:!bg-[var(--color-brand-primary)] border-none rounded-lg text-lg font-medium"
+            className="w-full h-12 bg-[var(--color-brand-primary)] hover:!bg-[var(--color-brand-primary)] shadow-none border-none rounded-lg text-lg font-medium"
           >
             Đăng nhập
           </Button>
         </Form.Item>
 
-        <div className="text-center text-[#515151]">
+        <div className="text-center text-black">
           Bạn chưa có tài khoản?{" "}
           <span
-            href="#"
             className="text-[var(--color-brand-primary)] font-bold cursor-pointer"
             onClick={() => {
               document.getElementById("signup-button")?.click();
@@ -128,9 +144,9 @@ export default function LoginForm() {
         </div>
       </Form>
       <Flex gap={8} justify="center" items="center" className="w-full my-6">
-        <div className="w-full h-[0.5px] my-3 bg-[#515151]"></div>
-        <p className="px-2 text-center text-[#515151]">hoặc</p>
-        <div className="w-full h-[0.5px] my-3 bg-[#515151]"></div>
+        <div className="w-[30%] h-[0.5px] my-3 bg-[var(--color-brand-primary)]"></div>
+        <p className="px-2 text-center">Hoặc đăng nhập với</p>
+        <div className="w-[30%] h-[0.5px] my-3 bg-[var(--color-brand-primary)]"></div>
       </Flex>
       <Flex className="w-full" justify="center">
         <GoogleAuthProvider.GoogleLoginButton />

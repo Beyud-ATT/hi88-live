@@ -3,6 +3,7 @@ import { CompoundModal } from "../../components/CompoundModal";
 import LoginForm from "../../components/LoginForm";
 import SignUpForm from "../../components/SignUpForm";
 import { useAuth } from "../../contexts/AuthContext";
+import { MdClose } from "react-icons/md";
 
 export default function GroupButton() {
   const { isAuthenticated } = useAuth();
@@ -23,14 +24,13 @@ export default function GroupButton() {
             )}
           />
           <CompoundModal.Content
-            className="border-[2px] border-[#C0C0C0] !rounded-3xl pb-0 !bg-transparent"
+            className="!rounded-3xl pb-0 md:!bg-[url('/src/assets/login-bg.png')] !bg-[url('/src/assets/mobile-bg.png')] md:bg-contain bg-cover bg-center bg-no-repeat"
             classNames={{
-              content: "!rounded-3xl !bg-transparent",
+              content: "!rounded-3xl !bg-transparent !shadow-none",
             }}
-            style={{
-              background:
-                "radial-gradient(71.52% 71.52% at 50% 100%, var(--color-brand-primary) 0%, #FFF 100%)",
-            }}
+            closeIcon={
+              <MdClose className="!text-[var(--color-brand-primary)] text-2xl -translate-x-3" />
+            }
           >
             <LoginForm />
           </CompoundModal.Content>
@@ -50,14 +50,13 @@ export default function GroupButton() {
             )}
           />
           <CompoundModal.Content
-            className="border-[2px] border-[#C0C0C0] !rounded-3xl pb-0 !bg-transparent"
+            className="!rounded-3xl pb-0 md:!bg-[url('/src/assets/signup-bg.png')] !bg-[url('/src/assets/mobile-bg.png')] md:bg-contain bg-cover bg-center bg-no-repeat"
             classNames={{
-              content: "!rounded-3xl !bg-transparent",
+              content: "!rounded-3xl !bg-transparent !shadow-none",
             }}
-            style={{
-              background:
-                "radial-gradient(71.52% 71.52% at 50% 100%, var(--color-brand-primary) 0%, #FFF 100%)",
-            }}
+            closeIcon={
+              <MdClose className="!text-[var(--color-brand-primary)] text-2xl -translate-x-3" />
+            }
           >
             <SignUpForm />
           </CompoundModal.Content>

@@ -21,22 +21,16 @@ import { useUserActionDrawer } from "../../layout/Header/Mobile/UserActionDrawer
 import { UserType } from "../../utils/constant";
 
 const menuItems = [
-  {
-    key: "home",
-    icon: <FaHome />,
-    label: <Link to="">Trang chủ</Link>,
-    extra: <FaChevronRight />,
-  },
-  {
-    key: "stream-dashboard",
-    icon: <RiLiveFill />,
-    label: (
-      <Link to={import.meta.env.VITE_DASHBOARD_URL} target="_blank">
-        Dashboard
-      </Link>
-    ),
-    extra: <FaChevronRight />,
-  },
+  // {
+  //   key: "stream-dashboard",
+  //   icon: <RiLiveFill />,
+  //   label: (
+  //     <Link to={import.meta.env.VITE_DASHBOARD_URL} target="_blank">
+  //       Dashboard
+  //     </Link>
+  //   ),
+  //   extra: <FaChevronRight />,
+  // },
   {
     key: "profile",
     icon: <FaUser />,
@@ -153,7 +147,7 @@ const LeftNav = () => {
         if (!isIdol && item.key === "livestreams-config") return null;
         return item;
       })}
-      className="lg:!w-[26%] w-full min-h-screen p-4 bg-[var(--color-brand-primary)]"
+      className="lg:!w-[26%] w-full min-h-screen p-4 bg-[var(--user-page-left-nav)]"
     />
   );
 };

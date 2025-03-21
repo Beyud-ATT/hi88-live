@@ -57,17 +57,13 @@ export default function ForgotPassword() {
         )}
       />
       <CompoundModal.Content
-        className="!bg-[var(--background-color)] border-[2px] border-[#C0C0C0] !rounded-3xl !pb-0"
+        className="md:!bg-[url('/src/assets/login-bg.png')] !bg-[url('/src/assets/mobile-bg.png')] !bg-cover !bg-top !bg-no-repeat border-[2px] border-[var(--color-brand-primary)] !rounded-[30px] !pb-0"
         classNames={{
           content: "!rounded-3xl !bg-transparent",
           body: "mt-8",
           mask: "backdrop-blur-md",
         }}
         centered={true}
-        style={{
-          background:
-            "radial-gradient(71.52% 25.52% at 50% 100%, #58F8FE 0%, #FFF 100%)",
-        }}
       >
         <PasswordForgotForm />
       </CompoundModal.Content>

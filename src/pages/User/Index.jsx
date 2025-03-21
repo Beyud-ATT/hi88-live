@@ -18,7 +18,7 @@ export default function User() {
       <div className="flex-1">
         {/* Profile Header */}
         <DeviceProvider.PC>
-          <div className="flex items-center bg-gradient-to-r from-[#362AD6] via-[#9067EA] to-[#EAE5BF] h-[120px]"></div>
+          <div className="flex items-center bg-[var(--color-brand-primary-lighter-3)] h-[120px]"></div>
         </DeviceProvider.PC>
 
         {/* Content Area */}
@@ -30,7 +30,7 @@ export default function User() {
                 <div className="lg:-translate-y-1/4">
                   <UserProfileFrame data={accoutnData} />
                 </div>
-                <div className="flex flex-col justify-end lg:text-left text-center space-y-3">
+                <div className="flex flex-col justify-end lg:text-left text-center space-y-3 text-[var(--color-brand-primary)]">
                   <h2 className="text-xl font-bold">
                     {accoutnData?.displayName || "User Name"}
                   </h2>
