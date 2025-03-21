@@ -1,6 +1,7 @@
 import { Button, Form, Input, Typography } from "antd";
 import { CompoundModal, useModal } from "./CompoundModal";
 import useForgotPassword from "../hooks/useForgotPassword";
+import { inputStyle } from "./LoginForm";
 
 function PasswordForgotForm() {
   const { mutate: forgotPassword, isPending } = useForgotPassword();
@@ -23,10 +24,7 @@ function PasswordForgotForm() {
         Nhập email để thay đổi mật khẩu
       </Typography.Title>
       <Form.Item name="email">
-        <Input
-          placeholder="Email"
-          className="h-12 bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-gray-600 rounded-lg"
-        />
+        <Input placeholder="Email" className={inputStyle} />
       </Form.Item>
       <Form.Item className="flex w-full justify-end">
         <Button
