@@ -38,7 +38,7 @@ export default function LiveMobile() {
   const handleShare = useCallback(() => {
     if (navigator.share) {
       navigator.share({
-        title: "New88 Live",
+        title: "Hi88 Live",
         text: "Hãy xem thử livestream của chúng tôi!!!",
         url: window.location.href,
       });

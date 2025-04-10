@@ -106,7 +106,7 @@ export default function BaseFooter() {
           </Link>
           <span>|</span>
           <Link to="#" className="xl:text-[16px] text-[12px]">
-            Giới Thiệu Về NEW88
+            Giới Thiệu Về Hi88
           </Link>
           <span>|</span>
           <Link to="#" className="xl:text-[16px] text-[12px]">
@@ -118,7 +118,7 @@ export default function BaseFooter() {
           </Link>
           <span>|</span>
           <Link to="#" className="xl:text-[16px] text-[12px]">
-            Quyền Riêng Tư Tại NEW88
+            Quyền Riêng Tư Tại Hi88
           </Link>
           <span>|</span>
           <Link to="#" className="xl:text-[16px] text-[12px]">

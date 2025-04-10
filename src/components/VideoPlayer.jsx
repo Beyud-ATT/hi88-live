@@ -353,7 +353,7 @@ const LivestreamPlayer = ({ liveId }) => {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: "New88 Live",
+        title: "Hi88 Live",
         text: "Hãy xem thử livestream của chúng tôi!!!",
         url: window.location.href,
       });

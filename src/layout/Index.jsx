@@ -4,8 +4,8 @@ import BaseFooter from "./Footer/Index";
 import BaseContent from "./Content";
 import BaseHeader from "./Header/Index";
 import { createContext, useContext } from "react";
-import MobileFooter from "./Footer/Mobile";
-import { screenType, useDevice } from "../contexts/ResponsiveContext";
+// import MobileFooter from "./Footer/Mobile";
+import { useDevice } from "../contexts/ResponsiveContext";
 
 const LayoutContext = createContext();
 

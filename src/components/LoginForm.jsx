@@ -9,8 +9,11 @@ import { useModal } from "./CompoundModal";
 import ForgotPassword from "./ForgotPassword";
 import LogoImg from "../assets/logo.png";
 
-export const inputStyle =
-  "h-12 rounded-lg bg-[var(--color-brand-primary-lighter-2)] border-[2px] !border-[var(--color-brand-primary)] focus:shadow-none focus:outline-none";
+export const inputStyle = `h-12 rounded-lg 
+input-gradient-bg border-[2px] !border-[var(--color-brand-primary)] 
+focus:shadow-none focus:outline-none 
+focus:!shadow-[0px_1px_6.9px_0px_rgba(38,168,223,0.55)] 
+focus-within:!shadow-[0px_1px_6.9px_0px_rgba(38,168,223,0.55)]`;
 
 export default function LoginForm() {
   const { login } = useAuth();

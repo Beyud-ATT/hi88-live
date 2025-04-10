@@ -69,33 +69,6 @@ export default function SignUpForm() {
             </Form.Item>
 
             <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: "Vui lòng nhập tên tài khoản!" },
-                { min: 6, message: "Tên tài khoản phải dài hơn 6 kí tự!" },
-                { max: 20, message: "Ten tài khoản phải dài hơn 20 kí tự!" },
-              ]}
-            >
-              <Input
-                autoComplete="new-username"
-                placeholder="Tên tài khoản"
-                className={inputStyle}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="email"
-              rules={[
-                { required: true, message: "Vui lòng nhập email!" },
-                { type: "email", message: "Email không hợp lệ!" },
-              ]}
-            >
-              <Input placeholder="Email" className={inputStyle} />
-            </Form.Item>
-          </Col>
-
-          <Col span={12} xs={24} md={12} className="md:pl-2">
-            <Form.Item
               name="password"
               rules={[
                 { required: true, message: "Vui lòng nhập mật khẩu!" },
@@ -150,6 +123,23 @@ export default function SignUpForm() {
                 }
               />
             </Form.Item>
+          </Col>
+
+          <Col span={12} xs={24} md={12} className="md:pl-2">
+            <Form.Item
+              name="username"
+              rules={[
+                { required: true, message: "Vui lòng nhập tên tài khoản!" },
+                { min: 6, message: "Tên tài khoản phải dài hơn 6 kí tự!" },
+                { max: 20, message: "Ten tài khoản phải dài hơn 20 kí tự!" },
+              ]}
+            >
+              <Input
+                autoComplete="new-username"
+                placeholder="Tên tài khoản"
+                className={inputStyle}
+              />
+            </Form.Item>
 
             <Form.Item name="phone">
               <PhoneInputField
@@ -157,6 +147,16 @@ export default function SignUpForm() {
                   phoneNumberRef.current = value;
                 }}
               />
+            </Form.Item>
+
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: "Vui lòng nhập email!" },
+                { type: "email", message: "Email không hợp lệ!" },
+              ]}
+            >
+              <Input placeholder="Email" className={inputStyle} />
             </Form.Item>
           </Col>
 

@@ -291,10 +291,7 @@ const LivestreamPlayerMobile = ({ liveId }) => {
           >
             {!isLiveDetailLoading && !isLoading && (
               <Image
-                src={
-                  liveDetailData?.thumbnail ??
-                  "https://newlive.sgp1.cdn.digitaloceanspaces.com/newlive/photo_2025-01-27_19-07-46.jpg"
-                }
+                src={liveDetailData?.thumbnail}
                 preview={false}
                 loading="lazy"
               />

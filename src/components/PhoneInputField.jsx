@@ -81,9 +81,9 @@ function PhoneInputField({ onChange, value, ...rest }) {
         value={phoneNumber}
         onChange={handlePhoneChange}
         inputClass={`!h-12 
-          !bg-[var(--color-brand-primary-lighter-2)] focus:!bg-[var(--color-brand-primary-lighter-2)] 
+          input-gradient-bg focus:!shadow-[0px_1px_6.9px_0px_rgba(38,168,223,0.55)]
           !border-[2px] !border-[var(--color-brand-primary)] 
-          !rounded-lg !w-full`}
+          !rounded-lg !w-full `}
         inputProps={{
           name: "phone",
           onPaste: handlePaste,
