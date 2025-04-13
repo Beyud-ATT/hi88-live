@@ -22,7 +22,7 @@ export default function BannerSection() {
             align="center"
             className="h-full w-[85%] mx-auto"
           >
-            <Link to="" target="_blank">
+            <Link to="https://hi88app77.com" target="_blank">
               <Image
                 src={DownloadNow}
                 alt="Download Now"
