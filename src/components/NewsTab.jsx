@@ -2,7 +2,7 @@ import { Image, Typography } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import useHomeNews from "../hooks/useHomeNews";
 
-import DefaultBanner from "../assets/default-banner.webp";
+import News from "../assets/news.webp";
 
 function NewsTab() {
   const [activeTab, setActiveTab] = useState(null);
@@ -12,9 +12,15 @@ function NewsTab() {
     () => [
       {
         title: "Sự kiện hot xem livestream bốc iphone: 20H-23H THỨ 5 HÀNG TUẦN",
-        content: DefaultBanner,
+        content: News,
         description: "",
         id: `tab1`,
+      },
+      {
+        title: "Sự kiện hot xem livestream bốc iphone: 20H-23H THỨ 5 HÀNG TUẦN",
+        content: News,
+        description: "",
+        id: `tab2`,
       },
     ],
     []
