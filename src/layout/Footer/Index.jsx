@@ -2,6 +2,7 @@ import { Flex, Image } from "antd";
 import { useLayoutContext } from "../Index";
 import { Link } from "react-router";
 import Dimaria from "../../assets/dimaria.png";
+import FooterBg from "../../assets/footer-bg.webp";
 
 import {
   Footer1,
@@ -25,9 +26,9 @@ export default function BaseFooter() {
 
   return (
     <Footer
-      className="lg:block hidden bg-[url('/src/assets/footer-bg.webp')] bg-cover bg-no-repeat bg-opacity-10 mt-20 pb-0 px-0"
+      className="lg:block hidden mt-20 pb-0 px-0"
       style={{
-        background: `linear-gradient(0deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.75) 100%), url('/src/assets/footer-bg.webp') lightgray 0px -134.601px / 100% 285.714% no-repeat`,
+        background: `linear-gradient(0deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.75) 100%), url('${FooterBg}') lightgray 0px -134.601px / 100% 285.714% no-repeat`,
       }}
     >
       <Flex
