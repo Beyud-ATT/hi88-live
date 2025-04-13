@@ -25,7 +25,7 @@ import {
   videoHeightSettingInRoom,
 } from "../utils/constant";
 
-import Hanna from "../assets/hanna.webp";
+import DefaultBanner from "../assets/default-banner.webp";
 
 const LivestreamPlayer = ({ liveId }) => {
   const pathname = useLocation().pathname;
@@ -428,7 +428,11 @@ const LivestreamPlayer = ({ liveId }) => {
               className="w-full h-full bg-[var(--video-player-bg)]"
             >
               {!isLiveDetailLoading && !isLoading && (
-                <Image src={Hanna} preview={false} loading="lazy" />
+                <Image
+                  src={liveDetailData?.thumbnail || DefaultBanner}
+                  preview={false}
+                  loading="lazy"
+                />
               )}
             </Flex>
           </div>

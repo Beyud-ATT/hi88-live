@@ -3,7 +3,7 @@ import useLiveHot from "../../hooks/useLiveHot";
 import LivestreamPlayer from "../../components/VideoPlayer";
 import { useEffect, useState } from "react";
 
-import Hanna from "../../assets/hanna.webp";
+import DefaultBanner from "../../assets/default-banner.webp";
 
 const LiveSection = () => {
   const { data, isLoading } = useLiveHot();
@@ -54,7 +54,7 @@ const LiveSection = () => {
                 >
                   <Image
                     alt="Stream"
-                    src={Hanna}
+                    src={stream?.thumbnail || DefaultBanner}
                     className={`md:!w-[85%] md:!h-auto !w-[100px] !h-[55px] mx-auto object-cover aspect-video p-1 rounded-lg cursor-pointer ${
                       isSelected ? "bg-[var(--color-brand-primary)]" : ""
                     }`}
