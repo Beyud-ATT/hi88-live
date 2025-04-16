@@ -15,6 +15,8 @@ import { MdOutlineUpdateDisabled, MdPlayDisabled } from "react-icons/md";
 import { useSignalR } from "../contexts/SIgnalRContext";
 import { CiStreamOn } from "react-icons/ci";
 
+import DefaultBanner from "../assets/default-banner.webp";
+
 const LivestreamPlayerMobile = ({ liveId }) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
@@ -291,7 +293,7 @@ const LivestreamPlayerMobile = ({ liveId }) => {
           >
             {!isLiveDetailLoading && !isLoading && (
               <Image
-                src={liveDetailData?.thumbnail}
+                src={liveDetailData?.thumbnail || DefaultBanner}
                 preview={false}
                 loading="lazy"
               />
