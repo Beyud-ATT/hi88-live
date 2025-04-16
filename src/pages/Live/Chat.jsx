@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import ChatBar from "./ChatBar";
 import { useSignalR } from "../../contexts/SIgnalRContext";
-import { FaCrown, FaRegEyeSlash } from "react-icons/fa";
+import { FaCopy, FaCrown, FaRegEyeSlash } from "react-icons/fa";
 import { useParams } from "react-router";
 import useLiveDetail from "../../hooks/useLiveDetail";
 import parse from "html-react-parser";
@@ -13,6 +13,8 @@ import moment from "moment/moment";
 import useScrollDirection from "../../hooks/useScrollDirection";
 import useMobileKeyboardOpen from "../../hooks/useMobileKeyboardOpen";
 import { chatHeightSetting } from "../../utils/constant";
+import { detectUrls } from "../../utils/helper";
+import { Flex } from "antd";
 
 function ShowMore({ message, show, ...rest }) {
   const [showMore, setShowMore] = useState(false);
@@ -60,6 +62,11 @@ function PinnedMessage() {
   const [show, setShow] = useState(false);
 
   const { newPinnedMsg, resetNewPinnedMsg } = useSignalR();
+
+  const URLs = detectUrls(messages[currentMessageIndex]);
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(URLs);
+  }, [URLs]);
 
   const handleMessageClick = useCallback(
     (e) => {
@@ -109,7 +116,7 @@ function PinnedMessage() {
               </div>
             </div>
 
-            <div>
+            <Flex justify="center" align="center">
               {show ? (
                 <button type="button" className="m-1 cursor-pointer">
                   <IoMdArrowDropup
@@ -125,7 +132,17 @@ function PinnedMessage() {
                   />
                 </button>
               )}
-            </div>
+
+              {URLs?.length > 0 && (
+                <button
+                  type="button"
+                  className="m-1 cursor-pointer"
+                  onClick={handleCopy}
+                >
+                  <FaCopy className="text-[#E71818] text-lg  cursor-pointer" />
+                </button>
+              )}
+            </Flex>
           </div>
         </div>
       </div>

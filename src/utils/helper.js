@@ -27,4 +27,10 @@ function logoutHelper() {
   localStorage.removeItem("userType");
 }
 
-export { generateSignature, logoutHelper };
+function detectUrls(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const links = text.match(urlRegex) || [];
+  return links?.join(", ");
+}
+
+export { generateSignature, logoutHelper, detectUrls };
