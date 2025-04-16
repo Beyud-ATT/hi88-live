@@ -28,6 +28,8 @@ function logoutHelper() {
 }
 
 function detectUrls(text) {
+  if (!text) return;
+
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const links = text.match(urlRegex) || [];
   return links?.join(", ");
