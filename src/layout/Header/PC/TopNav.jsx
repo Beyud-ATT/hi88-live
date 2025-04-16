@@ -31,11 +31,19 @@ export const items = [
     ),
   },
   {
-    label: "Liveshow",
-    key: "liveshow",
+    label: (
+      <Link to="" target="_blank">
+        NHẬP CODE
+      </Link>
+    ),
+    key: "code",
     render: (props) => (
-      <Link to="/" {...props} className="!text-[var(--color-brand-primary)]">
-        Liveshow
+      <Link
+        to="https://freecode-hi88.pages.dev/"
+        {...props}
+        className="!text-[var(--color-brand-primary)]"
+      >
+        NHẬP CODE
       </Link>
     ),
   },

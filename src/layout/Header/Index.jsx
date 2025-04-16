@@ -66,11 +66,11 @@ export default function BaseHeader({ ...rest }) {
           </Flex>
           <Marquee className="text-[white] overflow-hidden">
             <span>
-              Hi88 Kính Chào Qúy Khách! Link dễ nhớ: Hi88.vin 📞📞Hotline:
-              0876665888 📧 Gmail: admin@Hi88.com ⭐️Kênh thông báo:
-              https://t.me/Hi88giaitritructuyenso1 ⭐️ Fanpage:
-              https://www.facebook.com/giaitriHi88 💥Nạp đầu tặng 100% Nổ hũ bắn
-              cá 💥 Tải APP tặng ngay 88k 💥
+              Hi88 Kính Chào Qúy Khách! Link dễ nhớ: hi88y.com; hi88r.com;
+              111555.com 📞📞Hotline: 0706777788 📧 Gmail: admin@hi88.com
+              ⭐️Kênh thông báo: https://t.me/addlist/hncLZIgPKzkyZWU1⭐️
+              Fanpage:https://www.facebook.com/GiaiTriiHi88 💥Nạp đầu tặng 100%
+              Nổ hũ bắn cá 💥 Tải APP Đăng ký tặng 58k
             </span>
           </Marquee>
         </Flex>
