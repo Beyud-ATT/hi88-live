@@ -32,7 +32,7 @@ export const items = [
   },
   {
     label: (
-      <Link to="" target="_blank">
+      <Link to="https://freecode-hi88.pages.dev/" target="_blank">
         NHẬP CODE
       </Link>
     ),
