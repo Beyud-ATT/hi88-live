@@ -5,14 +5,14 @@ import { Link } from "react-router";
 export const items = [
   {
     label: (
-      <Link to="" target="_blank">
+      <Link to={import.meta.env.VITE_HOME_URL} target="_blank">
         Trang chủ
       </Link>
     ),
     key: "home",
     render: (props) => (
       <Link
-        to=""
+        to={import.meta.env.VITE_HOME_URL}
         target="_blank"
         {...props}
         className="!text-[var(--color-brand-primary)]"

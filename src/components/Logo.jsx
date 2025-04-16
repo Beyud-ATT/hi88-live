@@ -5,7 +5,7 @@ import { Link } from "react-router";
 export default function Logo(props) {
   return (
     <>
-      <Link to="" target="_blank">
+      <Link to={import.meta.env.VITE_HOME_URL} target="_blank">
         <Image
           src={LogoImg}
           alt="logo"
