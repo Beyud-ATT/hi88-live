@@ -25,7 +25,7 @@ import {
   videoHeightSettingInRoom,
 } from "../utils/constant";
 
-import DefaultBanner from "../assets/default-banner.webp";
+import DefaultBanner from "../assets/default-banner.png";
 
 const LivestreamPlayer = ({ liveId }) => {
   const pathname = useLocation().pathname;

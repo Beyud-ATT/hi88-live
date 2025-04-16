@@ -3,7 +3,7 @@ import useLiveHot from "../../hooks/useLiveHot";
 import LivestreamPlayer from "../../components/VideoPlayer";
 import { useEffect, useState } from "react";
 
-import DefaultBanner from "../../assets/default-banner.webp";
+import DefaultBanner from "../../assets/default-banner.png";
 
 const LiveSection = () => {
   const { data, isLoading } = useLiveHot();

@@ -15,7 +15,7 @@ import { MdOutlineUpdateDisabled, MdPlayDisabled } from "react-icons/md";
 import { useSignalR } from "../contexts/SIgnalRContext";
 import { CiStreamOn } from "react-icons/ci";
 
-import DefaultBanner from "../assets/default-banner.webp";
+import DefaultBanner from "../assets/default-banner.png";
 
 const LivestreamPlayerMobile = ({ liveId }) => {
   const videoRef = useRef(null);
