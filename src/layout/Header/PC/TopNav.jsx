@@ -57,11 +57,19 @@ export const items = [
     ),
   },
   {
-    label: "Tải App",
+    label: (
+      <Link
+        to={import.meta.env.VITE_DOWNLOAD_URL}
+        target="_blank"
+        className="!text-[var(--color-brand-primary)]"
+      >
+        Tải App
+      </Link>
+    ),
     key: "download",
     render: (props) => (
       <Link
-        to="taiapp"
+        to={import.meta.env.VITE_DOWNLOAD_URL}
         target="_blank"
         {...props}
         className="!text-[var(--color-brand-primary)]"
