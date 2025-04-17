@@ -281,7 +281,7 @@ function ChatFrame({ ...rest }) {
                 >
                   <div className="flex gap-1">
                     <div
-                      className={`flex gap-0.5 text-[#00EAFF] text-sm font-medium mb-1 ${
+                      className={`flex gap-0.5 text-[#0655FF] text-sm font-medium mb-1 ${
                         isSpecial ? "!text-[#FF6699] font-bold" : ""
                       }`}
                     >
@@ -292,7 +292,7 @@ function ChatFrame({ ...rest }) {
                       <span>:</span>
                     </div>
                     <div
-                      className={`text-[#CECFD2] text-xs leading-relaxed ${
+                      className={`text-black text-xs leading-relaxed ${
                         isSpecial ? "!text-[#FF6699] font-semibold" : ""
                       } break-all`}
                     >
