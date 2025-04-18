@@ -415,7 +415,7 @@ function BareChatFrame() {
             >
               <div className="flex gap-1">
                 <div
-                  className={`flex gap-0.5 text-[var(--color-brand-primary)] font-medium mb-1 ${
+                  className={`flex gap-0.5 text-[#0655FF] font-medium mb-1 ${
                     isSpecial ? "!text-[#FF6699] font-bold" : ""
                   }`}
                 >
@@ -424,7 +424,7 @@ function BareChatFrame() {
                   <span>:</span>
                 </div>
                 <div
-                  className={`text-gray-300 leading-relaxed ${
+                  className={`text-black leading-relaxed ${
                     isSpecial ? "!text-[#FF6699] font-bold" : ""
                   } break-all`}
                 >
