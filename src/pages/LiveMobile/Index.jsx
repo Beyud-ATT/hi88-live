@@ -9,6 +9,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import Countdown from "../../components/CountDown";
 import { ChatInterface } from "../Live/Chat";
 import LivestreamPlayer from "../../components/VideoPlayer";
+import useMobileKeyboardOpen from "../../hooks/useMobileKeyboardOpen";
 
 const ViewerCount = ({ liveDetailData }) => {
   const { viewer } = useSignalR();
@@ -34,6 +35,7 @@ export default function LiveMobile() {
   const navigate = useNavigate();
   const { deviceType } = useDevice();
   const isMobile = deviceType === screenType.MOBILE;
+  const isMobileKeyboardOpen = useMobileKeyboardOpen();
 
   const handleShare = useCallback(() => {
     if (navigator.share) {
@@ -53,10 +55,12 @@ export default function LiveMobile() {
 
   return (
     <div
-      className={`relative w-full h-[100dvh] overflow-hidden transition-all duration-300 ease-in-out`}
+      className={`w-full h-[100dvh] overflow-hidden transition-all duration-300 ease-in-out`}
     >
       <div
-        className={`w-full overflow-hidden flex flex-col justify-between h-full`}
+        className={`w-full overflow-hidden flex flex-col ${
+          isMobileKeyboardOpen ? "gap-5" : "justify-between"
+        } h-full`}
       >
         <div className="w-full h-fit z-10 px-2 pt-3 flex items-center justify-between">
           <div className="bg-black/30 pr-2 rounded-full flex items-center gap-2">
@@ -94,14 +98,16 @@ export default function LiveMobile() {
           </div>
         </div>
 
-        <div className="absolute top-[9%] left-0 w-full z-0 px-2">
+        <div className="w-full z-0 px-2">
           <LivestreamPlayer liveId={id} />
         </div>
 
         <div className="h-fit border border-[var(--color-brand-primary)] rounded-xl mx-2 mb-2">
-          <div className="uppercase bg-[var(--color-brand-primary)] text-[#F8E54F] text-xl rounded-t-lg text-center font-bold py-[10px]">
-            bình luận
-          </div>
+          {!isMobileKeyboardOpen && (
+            <div className="uppercase bg-[var(--color-brand-primary)] text-[#F8E54F] text-xl rounded-t-lg text-center font-bold py-[10px]">
+              bình luận
+            </div>
+          )}
           <ChatInterface />
         </div>
       </div>
