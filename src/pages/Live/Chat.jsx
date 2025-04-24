@@ -195,26 +195,11 @@ function ChatFrame({ ...rest }) {
   );
 
   const isMobileKeyboardOpen = useMobileKeyboardOpen();
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
   const { isSrcollUp } = useScrollDirection({
     element: commentsContainerRef.current,
     thresholdPixels: 10,
     throttleTime: 300,
   });
-
-  const chatFrameStyle = useMemo(() => {
-    return {
-      height: isMobileKeyboardOpen
-        ? isIOS
-          ? "calc(25vh)"
-          : "calc(30vh)"
-        : "calc(40vh)",
-      display: "flex",
-      flexDirection: "column",
-      padding: "0.5rem",
-      overflow: "auto",
-    };
-  }, [isMobileKeyboardOpen, isIOS]);
 
   const getMessages = useCallback(() => {
     if (comments?.length > 0) return comments;
@@ -275,8 +260,9 @@ function ChatFrame({ ...rest }) {
 
   return (
     <div
-      className={`text-white ${chatHeightSetting} flex flex-col p-2 overflow-auto`}
-      style={chatFrameStyle}
+      className={`text-white ${chatHeightSetting} flex flex-col p-2 overflow-auto ${
+        isMobileKeyboardOpen ? "!h-[25dvh]" : "!h-[40dvh]"
+      }`}
       {...rest}
     >
       {!isMobileKeyboardOpen && <WarningAndPinnedComment />}

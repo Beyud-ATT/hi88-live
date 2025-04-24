@@ -102,20 +102,27 @@ export default function ChatBar({ ...rest }) {
   }, [message, sendChatMessage, sendCode, id, toggleSendCode, isSendCode]);
 
   const handleFocus = useCallback(() => {
-    // Prevent default mobile scroll behavior
     if (window.innerWidth <= 768) {
-      // Disable body scroll
+      const scrollY = window.scrollY;
+
+      // Store scroll position in a data attribute
+      document.body.dataset.scrollY = scrollY;
+
       document.body.style.overflow = "hidden";
       document.body.style.position = "fixed";
       document.body.style.width = "100%";
+      document.body.style.top = `-${scrollY}px`; // Add this line for iOS
       focus();
 
-      // Optional: Add event listener to re-enable scroll when input loses focus
       const input = document.activeElement;
       const handleBlur = () => {
         document.body.style.overflow = "";
         document.body.style.position = "";
         document.body.style.width = "";
+        document.body.style.top = "";
+
+        // Restore scroll position
+        window.scrollTo(0, parseInt(document.body.dataset.scrollY || "0"));
         input.removeEventListener("blur", handleBlur);
       };
       input.addEventListener("blur", handleBlur);
@@ -200,7 +207,13 @@ export default function ChatBar({ ...rest }) {
           <div className="flex gap-2 items-center">
             {isIdol && (
               <Input.TextArea
-                onFocus={focus}
+                onFocus={(e) => {
+                  e.target.setAttribute("readonly", "readonly");
+                  setTimeout(() => {
+                    e.target.removeAttribute("readonly");
+                    handleFocus();
+                  }, 10);
+                }}
                 onBlur={blur}
                 autoSize
                 maxLength={9999}
@@ -243,7 +256,13 @@ export default function ChatBar({ ...rest }) {
 
             {!isIdol && (
               <Input
-                onFocus={handleFocus}
+                onFocus={(e) => {
+                  e.target.setAttribute("readonly", "readonly");
+                  setTimeout(() => {
+                    e.target.removeAttribute("readonly");
+                    handleFocus();
+                  }, 10);
+                }}
                 onBlur={blur}
                 autoSize
                 maxLength={100}
