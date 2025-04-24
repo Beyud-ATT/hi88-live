@@ -3,7 +3,7 @@ const UserType = {
   IDOL: "2",
 };
 
-const chatHeightSetting = `xl:h-[570px] lg:h-[420px] md:h-[320px]`;
+const chatHeightSetting = `xl:h-[539px] lg:h-[386px] md:h-[304px]`;
 
 const videoHeightSettingInRoom = `xl:h-[504px] lg:h-[351px] md:h-[269px] h-[200px]`;
 const videoHeightSettingInHome = `xl:h-[580px] lg:h-[430px] md:h-[330px] h-[200px]`;

@@ -261,7 +261,7 @@ function ChatFrame({ ...rest }) {
   return (
     <div
       className={`text-white flex flex-col p-2 ${chatHeightSetting} overflow-auto ${
-        isMobileKeyboardOpen ? "h-[30dvh]" : "h-[45dvh]"
+        isMobileKeyboardOpen ? "!h-[25dvh]" : "!h-[40dvh]"
       }`}
       {...rest}
     >

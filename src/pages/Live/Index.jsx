@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router";
 import { screenType, useDevice } from "../../contexts/ResponsiveContext";
 import { useEffect } from "react";
 import { ChatInterface } from "./Chat";
+import Header from "./Header";
 
 const LivestreamDetail = ({ ...props }) => {
   const { id } = useParams();
@@ -31,6 +32,7 @@ const LivestreamDetail = ({ ...props }) => {
           lg={{ flex: "65%" }}
           xl={{ flex: "70%" }}
         >
+          <Header />
           <LivestreamPlayer liveId={id} />
         </Col>
         <Col
@@ -40,10 +42,7 @@ const LivestreamDetail = ({ ...props }) => {
           xl={{ flex: "30%" }}
           className="!overflow-hidden px-2"
         >
-          <div
-            className="w-full h-fit border border-[var(--color-brand-primary)] rounded-xl"
-            style={{ boxShadow: "0px 2px 0px 0px #02A9DC" }}
-          >
+          <div className="w-full h-fit border border-[var(--color-brand-primary)] rounded-xl">
             <div className="uppercase bg-[var(--color-brand-primary)] text-[#F8E54F] text-xl rounded-t-lg text-center font-bold py-[10px]">
               bình luận
             </div>

@@ -157,6 +157,9 @@ export default function ChatBar({ ...rest }) {
   }, [manualReconnect, currentHubConnection]);
 
   useEffect(() => {
+    setAllowChat(true);
+    return;
+
     const interval = setInterval(() => {
       if (
         liveDetailData?.scheduleTime &&

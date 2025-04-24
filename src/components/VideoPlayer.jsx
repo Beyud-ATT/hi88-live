@@ -297,7 +297,13 @@ const LivestreamPlayer = ({ liveId }) => {
 
   const handleFullscreen = () => {
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-      if (containerRef.current.requestFullscreen) {
+      if (
+        videoRef.current &&
+        (navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i))
+      ) {
+        videoRef.current.webkitEnterFullscreen();
+      } else if (containerRef.current.requestFullscreen) {
         containerRef.current.requestFullscreen();
       } else if (containerRef.current.webkitRequestFullscreen) {
         containerRef.current.webkitRequestFullscreen();
@@ -350,74 +356,11 @@ const LivestreamPlayer = ({ liveId }) => {
     }
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: "Hi88 Live",
-        text: "Hãy xem thử livestream của chúng tôi!!!",
-        url: window.location.href,
-      });
-    }
-  };
-
   return (
     <>
-      {pathname.includes("live") && (
-        <div className="w-full px-4 h-[85px] flex items-center justify-between">
-          <div className="flex">
-            <Avatar
-              src={liveDetailData?.avatar}
-              className="md:!w-16 md:!h-16 !w-12 !h-12"
-            />
-            <div className="flex flex-col justify-center ml-4">
-              <Typography.Title
-                level={2}
-                className="!font-bold !text-[var(--color-brand-primary)] xl:!text-[1.0rem] lg:!text-[.7rem] !text-[.5rem]"
-              >
-                {liveDetailData?.title}
-              </Typography.Title>
-              <div className="flex items-center justify-start space-x-4">
-                <Typography.Title
-                  level={3}
-                  className="!font-bold xl:!text-[.8rem] !text-[.6rem] !m-0 !text-[var(--color-brand-primary)]"
-                >
-                  {liveDetailData?.displayName}
-                </Typography.Title>
-                <div className="flex items-center justify-center space-x-1 text-[var(--color-brand-primary)]">
-                  <FaRegEye />
-                  <span>
-                    {isStreaming && viewer !== 0
-                      ? viewer
-                      : isStreaming && liveDetailData
-                      ? liveDetailData?.viewer
-                      : 0}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={handleShare}
-            className={`text-white 
-              xl:text-base md:text-[12px] text-[10px] 
-              flex items-center space-x-2 rounded-lg
-              border-[2px] border-[#F81E02]
-              py-1 px-2 animate-blink`}
-            style={{
-              background:
-                "linear-gradient(180deg, #FB543F 0%, #F91E02 20%, #F91E02 100%)",
-            }}
-          >
-            <FaShare className="md:text-2xl text-lg" />
-            <span className="whitespace-nowrap">Chia sẻ</span>
-          </button>
-        </div>
-      )}
-
       <div
         ref={containerRef}
-        className={`w-full ${videoLiveHeightSetting} overflow-hidden rounded-2xl`}
+        className={`relative w-full ${videoLiveHeightSetting} overflow-hidden rounded-2xl`}
       >
         {!isStreaming && (
           <div className={`z-0 w-full h-full`}>
