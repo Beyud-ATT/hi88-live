@@ -51,11 +51,11 @@ const LivestreamPlayer = ({ liveId }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [needsInteraction, setNeedsInteraction] = useState(
-    !pathname.includes("/live/")
+    !pathname.includes("/live/") && !pathname.includes("/live-mobile/")
   );
   const [isLive, setIsLive] = useState(true);
 
-  const { viewer, streamsInfo } = useSignalR();
+  const { streamsInfo } = useSignalR();
 
   const { data: liveData, isLoading: isLiveDetailLoading } =
     useLiveDetail(liveId);
