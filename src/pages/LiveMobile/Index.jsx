@@ -59,7 +59,7 @@ export default function LiveMobile() {
     >
       <div
         className={`w-full overflow-hidden flex flex-col ${
-          isMobileKeyboardOpen ? "gap-5" : "justify-between"
+          isMobileKeyboardOpen ? "gap-1" : "justify-between"
         } h-full`}
       >
         <div className="w-full h-fit z-10 px-2 pt-3 flex items-center justify-between">
