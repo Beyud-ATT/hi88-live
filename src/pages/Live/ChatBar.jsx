@@ -103,26 +103,28 @@ export default function ChatBar({ ...rest }) {
 
   const handleFocus = useCallback(() => {
     if (window.innerWidth <= 768) {
+      // Store current scroll position
       const scrollY = window.scrollY;
 
-      // Store scroll position in a data attribute
-      document.body.dataset.scrollY = scrollY;
-
+      // Apply scroll lock to body
       document.body.style.overflow = "hidden";
       document.body.style.position = "fixed";
       document.body.style.width = "100%";
-      document.body.style.top = `-${scrollY}px`; // Add this line for iOS
+      document.body.style.top = `-${scrollY}px`; // Works for both iOS and Android
+
       focus();
 
       const input = document.activeElement;
       const handleBlur = () => {
+        // Remove scroll lock
         document.body.style.overflow = "";
         document.body.style.position = "";
         document.body.style.width = "";
         document.body.style.top = "";
 
-        // Restore scroll position
-        window.scrollTo(0, parseInt(document.body.dataset.scrollY || "0"));
+        // Restore scroll position for both platforms
+        window.scrollTo(0, scrollY);
+
         input.removeEventListener("blur", handleBlur);
       };
       input.addEventListener("blur", handleBlur);
@@ -164,9 +166,6 @@ export default function ChatBar({ ...rest }) {
   }, [manualReconnect, currentHubConnection]);
 
   useEffect(() => {
-    setAllowChat(true);
-    return;
-
     const interval = setInterval(() => {
       if (
         liveDetailData?.scheduleTime &&
@@ -208,11 +207,17 @@ export default function ChatBar({ ...rest }) {
             {isIdol && (
               <Input.TextArea
                 onFocus={(e) => {
-                  e.target.setAttribute("readonly", "readonly");
+                  // Prevent scroll on both platforms
+                  e.preventDefault();
+                  handleFocus();
+
+                  // Optional: Small delay to ensure input is focused correctly
                   setTimeout(() => {
-                    e.target.removeAttribute("readonly");
-                    handleFocus();
-                  }, 10);
+                    e.target.scrollIntoView({
+                      block: "center",
+                      behavior: "auto",
+                    });
+                  }, 50);
                 }}
                 onBlur={blur}
                 autoSize
@@ -257,11 +262,17 @@ export default function ChatBar({ ...rest }) {
             {!isIdol && (
               <Input
                 onFocus={(e) => {
-                  e.target.setAttribute("readonly", "readonly");
+                  // Prevent scroll on both platforms
+                  e.preventDefault();
+                  handleFocus();
+
+                  // Optional: Small delay to ensure input is focused correctly
                   setTimeout(() => {
-                    e.target.removeAttribute("readonly");
-                    handleFocus();
-                  }, 10);
+                    e.target.scrollIntoView({
+                      block: "center",
+                      behavior: "auto",
+                    });
+                  }, 50);
                 }}
                 onBlur={blur}
                 autoSize
