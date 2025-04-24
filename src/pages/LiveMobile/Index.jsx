@@ -71,11 +71,6 @@ export default function LiveMobile() {
               />
             </div>
           </div>
-          {!isStreaming && (
-            <div>
-              <Countdown time={liveData?.scheduleTime} />
-            </div>
-          )}
           <div className="flex items-center justify-center gap-2">
             <button
               onClick={handleShare}
