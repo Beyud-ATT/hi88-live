@@ -90,21 +90,9 @@ const LivestreamPlayer = ({ liveId }) => {
     if (flvUrl || hlsUrl) {
       initializePlayer();
     }
-    const videoRefCurrent = videoRef.current;
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-
-    if (videoRefCurrent && isIOS) {
-      videoRefCurrent.addEventListener(
-        "webkitbeginfullscreen",
-        handleFullscreenChange
-      );
-      videoRefCurrent.addEventListener(
-        "webkitendfullscreen",
-        handleFullscreenChange
-      );
-    }
 
     return () => {
       destroyPlayer();
@@ -113,17 +101,6 @@ const LivestreamPlayer = ({ liveId }) => {
         "webkitfullscreenchange",
         handleFullscreenChange
       );
-
-      if (videoRefCurrent && isIOS) {
-        videoRefCurrent.removeEventListener(
-          "webkitbeginfullscreen",
-          handleFullscreenChange
-        );
-        videoRefCurrent.removeEventListener(
-          "webkitendfullscreen",
-          handleFullscreenChange
-        );
-      }
     };
   }, [flvUrl, hlsUrl]);
 
@@ -319,37 +296,31 @@ const LivestreamPlayer = ({ liveId }) => {
   };
 
   const handleFullscreen = () => {
-    if (isIOS) {
-      if (videoRef.current) {
-        if (!isFullscreen) {
-          videoRef.current.webkitEnterFullscreen();
-        }
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (
+        videoRef.current &&
+        (navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i))
+      ) {
+        videoRef.current.webkitEnterFullscreen();
+      } else if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      } else if (containerRef.current.webkitRequestFullscreen) {
+        containerRef.current.webkitRequestFullscreen();
       }
     } else {
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        if (containerRef.current.requestFullscreen) {
-          containerRef.current.requestFullscreen();
-        } else if (containerRef.current.webkitRequestFullscreen) {
-          containerRef.current.webkitRequestFullscreen();
-        }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
     }
   };
 
   const handleFullscreenChange = () => {
-    if (isIOS && videoRef.current) {
-      setIsFullscreen(videoRef.current.webkitDisplayingFullscreen);
-    } else {
-      setIsFullscreen(
-        !!(document.fullscreenElement || document.webkitFullscreenElement)
-      );
-    }
+    setIsFullscreen(
+      !!(document.fullscreenElement || document.webkitFullscreenElement)
+    );
   };
 
   const handlePlayPause = () => {
