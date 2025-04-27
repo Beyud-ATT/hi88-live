@@ -318,7 +318,7 @@ function ChatFrame({ ...rest }) {
   );
 }
 
-function ChatInterface({ ...rest }) {
+function ChatInterface({ hideInput, ...rest }) {
   const { deviceType } = useDevice();
   const isMobile = useMemo(
     () => deviceType === screenType.MOBILE,
@@ -327,7 +327,7 @@ function ChatInterface({ ...rest }) {
 
   return (
     <div
-      className={`flex flex-col md:h-full w-full justify-between ${chatHeightSetting}`}
+      className={`flex flex-col h-full w-full justify-between ${chatHeightSetting}`}
       {...rest}
     >
       <ChatFrame
@@ -335,9 +335,11 @@ function ChatInterface({ ...rest }) {
           borderRadius: `${isMobile ? "8px 8px 0 0" : "none"}`,
         }}
       />
-      <div className={`py-3 px-2 ${isMobile && "rounded-b-lg"}`}>
-        <ChatBar />
-      </div>
+      {!hideInput && (
+        <div className={`py-3 px-2 ${isMobile && "rounded-b-lg"}`}>
+          <ChatBar />
+        </div>
+      )}
     </div>
   );
 }

@@ -206,19 +206,7 @@ export default function ChatBar({ ...rest }) {
           <div className="flex gap-2 items-center">
             {isIdol && (
               <Input.TextArea
-                onFocus={(e) => {
-                  // Prevent scroll on both platforms
-                  e.preventDefault();
-                  handleFocus();
-
-                  // Optional: Small delay to ensure input is focused correctly
-                  setTimeout(() => {
-                    e.target.scrollIntoView({
-                      block: "center",
-                      behavior: "auto",
-                    });
-                  }, 50);
-                }}
+                onFocus={handleFocus}
                 onBlur={blur}
                 autoSize
                 maxLength={9999}
@@ -261,19 +249,7 @@ export default function ChatBar({ ...rest }) {
 
             {!isIdol && (
               <Input
-                onFocus={(e) => {
-                  // Prevent scroll on both platforms
-                  e.preventDefault();
-                  handleFocus();
-
-                  // Optional: Small delay to ensure input is focused correctly
-                  setTimeout(() => {
-                    e.target.scrollIntoView({
-                      block: "center",
-                      behavior: "auto",
-                    });
-                  }, 50);
-                }}
+                onFocus={focus}
                 onBlur={blur}
                 autoSize
                 maxLength={100}
