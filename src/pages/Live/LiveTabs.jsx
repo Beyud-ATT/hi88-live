@@ -46,7 +46,7 @@ function KeyboardAwareChatBar() {
 
   return (
     <div
-      className="fixed left-0 right-0 z-30 bg-[var(--lighter-background)] px-2 py-2"
+      className="fixed bottom-1 left-0 right-0 z-30 bg-[var(--lighter-background)] px-2 py-2"
       style={{ bottom: `${bottomOffset}px` }}
     >
       <ChatBar />

@@ -66,7 +66,7 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(false);
+  const [allowChat, setAllowChat] = useState(true);
 
   const { isAuthenticated } = useAuth();
   const {
@@ -165,32 +165,32 @@ export default function ChatBar({ ...rest }) {
     };
   }, [manualReconnect, currentHubConnection]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (
-        liveDetailData?.scheduleTime &&
-        dayjs().isAfter(
-          dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
-        )
-      ) {
-        setAllowChat(true);
-      }
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (
+  //       liveDetailData?.scheduleTime &&
+  //       dayjs().isAfter(
+  //         dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
+  //       )
+  //     ) {
+  //       setAllowChat(true);
+  //     }
+  //   }, 1000);
 
-    if (liveDetailData?.isStreaming) {
-      setAllowChat(true);
-      clearInterval(interval);
-    }
+  //   if (liveDetailData?.isStreaming) {
+  //     setAllowChat(true);
+  //     clearInterval(interval);
+  //   }
 
-    if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
-      setAllowChat(false);
-      clearInterval(interval);
-    }
+  //   if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
+  //     setAllowChat(false);
+  //     clearInterval(interval);
+  //   }
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [liveDetailData, allowChat]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [liveDetailData, allowChat]);
 
   const ChatBarMemoized = useMemo(() => {
     return (

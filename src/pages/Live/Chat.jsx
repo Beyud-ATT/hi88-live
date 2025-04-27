@@ -261,7 +261,7 @@ function ChatFrame({ ...rest }) {
   return (
     <div
       className={`text-white ${chatHeightSetting} flex flex-col p-2 overflow-auto ${
-        isMobileKeyboardOpen ? "!h-[25dvh]" : "!h-[40dvh]"
+        isMobileKeyboardOpen ? "!h-[35dvh]" : "!h-[40dvh]"
       }`}
       {...rest}
     >
@@ -327,7 +327,9 @@ function ChatInterface({ hideInput, ...rest }) {
 
   return (
     <div
-      className={`flex flex-col h-full w-full justify-between ${chatHeightSetting}`}
+      className={`${
+        hideInput ? "flex flex-col h-full w-full justify-between" : ""
+      } ${chatHeightSetting}`}
       {...rest}
     >
       <ChatFrame
