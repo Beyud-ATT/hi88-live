@@ -47,7 +47,9 @@ function KeyboardAwareChatBar() {
       className="fixed left-0 right-0 z-30 px-4 py-3"
       style={{ bottom: `${bottomOffset}px` }}
     >
-      <ChatBar />
+      <div className={`${bottomOffset > 0 ? "bg-white" : ""}`}>
+        <ChatBar />
+      </div>
     </div>
   );
 }
