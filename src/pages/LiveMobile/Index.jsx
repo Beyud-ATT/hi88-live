@@ -10,6 +10,7 @@ import Countdown from "../../components/CountDown";
 import { ChatInterface } from "../Live/Chat";
 import LivestreamPlayer from "../../components/VideoPlayer";
 import useMobileKeyboardOpen from "../../hooks/useMobileKeyboardOpen";
+import AdaptiveChatBar from "./AdaptiveChatBar";
 
 const ViewerCount = ({ liveDetailData }) => {
   const { viewer } = useSignalR();
@@ -108,7 +109,7 @@ export default function LiveMobile() {
               bình luận
             </div>
           )}
-          <ChatInterface />
+          <AdaptiveChatBar />
         </div>
       </div>
     </div>
