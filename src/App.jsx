@@ -23,7 +23,8 @@ function App() {
       <Routes>
         <Route
           element={
-            <ErrorBoundary fallback={<h1> Something went wrong !!!</h1>}>
+            // <ErrorBoundary fallback={<h1> Something went wrong !!!</h1>}>
+            <ErrorBoundary>
               <BaseLayout />
             </ErrorBoundary>
           }
