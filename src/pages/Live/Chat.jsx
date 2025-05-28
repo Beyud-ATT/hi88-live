@@ -4,7 +4,6 @@ import { useSignalR } from "../../contexts/SIgnalRContext";
 import { FaCopy, FaCrown, FaRegEyeSlash } from "react-icons/fa";
 import { useParams } from "react-router";
 import useLiveDetail from "../../hooks/useLiveDetail";
-import parse from "html-react-parser";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { screenType, useDevice } from "../../contexts/ResponsiveContext";
 import useBannedChat from "../../hooks/useBannedChat";
@@ -45,7 +44,7 @@ function ShowMore({ message, show, ...rest }) {
       {...rest}
     >
       {(show !== undefined ? show : showMore) ? (
-        <span>{parse(message)}</span>
+        <span>{message}</span>
       ) : (
         <span>{truncatedMessage}</span>
       )}
@@ -294,7 +293,7 @@ function ChatFrame({ ...rest }) {
                         isSpecial ? "!text-[#FF6699] font-semibold" : ""
                       } break-all`}
                     >
-                      {parse(comment.message)}
+                      {comment.message}
                     </div>
                   </div>
                   <div className="text-gray-400 cursor-pointer">
@@ -428,7 +427,7 @@ function BareChatFrame() {
                     isSpecial ? "!text-[#FF6699] font-bold" : ""
                   } break-all`}
                 >
-                  {parse(comment.message)}
+                  {comment.message}
                 </div>
               </div>
             </div>
