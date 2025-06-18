@@ -2,7 +2,7 @@ import { Image, Typography } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import useHomeNews from "../hooks/useHomeNews";
 
-import News from "../assets/news.png";
+import News from "../assets/live-hi88.webp";
 
 function NewsTab() {
   const [activeTab, setActiveTab] = useState(null);
