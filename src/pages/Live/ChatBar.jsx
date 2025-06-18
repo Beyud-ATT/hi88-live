@@ -68,7 +68,7 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(true);
+  const [allowChat, setAllowChat] = useState(false);
 
   const { isAuthenticated } = useAuth();
   const {
