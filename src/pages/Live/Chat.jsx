@@ -282,7 +282,11 @@ function ChatFrame({ ...rest }) {
                         isSpecial ? "!text-[#FF6699] font-bold" : ""
                       }`}
                     >
-                      <span>{comment.displayName}</span>
+                      <span>
+                        {comment.displayName?.length > 15
+                          ? comment.displayName?.slice(0, 15)?.concat("...")
+                          : comment.displayName}
+                      </span>
                       {isSpecial && (
                         <FaCrown className="rotate-45 text-[10px] font-bold" />
                       )}

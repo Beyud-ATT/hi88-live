@@ -14,6 +14,7 @@ import { FaRegSmile } from "react-icons/fa";
 import useLiveDetail from "../../hooks/useLiveDetail";
 import dayjs from "dayjs";
 import DOMPurify from "isomorphic-dompurify";
+import { toast } from "react-toastify";
 
 function EmojiPickerCustom({ onPickEmoji, open, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,7 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(false);
+  const [allowChat, setAllowChat] = useState(true);
 
   const { isAuthenticated } = useAuth();
   const {
@@ -89,17 +90,21 @@ export default function ChatBar({ ...rest }) {
 
   const handleSendMessage = useCallback(() => {
     const newMsg = DOMPurify.sanitize(message).replace(/\n/g, "<br/>").trim();
-    if (message !== "") {
-      if (!isSendCode) {
-        sendChatMessage({ hub: id, message: newMsg });
-        setMessage("");
-      } else {
-        sendCode({ hub: id, message: newMsg });
-        setMessage("");
-        toggleSendCode();
-      }
-      setIsEmoOpen(false);
+    const isOnlySpace = message.replace(/\s/g, "").length === 0;
+    if (isOnlySpace) {
+      toast.error("Vui lòng nhập tin nhắn");
+      return;
     }
+
+    if (!isSendCode) {
+      sendChatMessage({ hub: id, message: newMsg });
+      setMessage("");
+    } else {
+      sendCode({ hub: id, message: newMsg });
+      setMessage("");
+      toggleSendCode();
+    }
+    setIsEmoOpen(false);
   }, [message, sendChatMessage, sendCode, id, toggleSendCode, isSendCode]);
 
   const handleFocus = useCallback(() => {
