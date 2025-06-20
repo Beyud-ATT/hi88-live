@@ -15,6 +15,7 @@ import useLiveDetail from "../../hooks/useLiveDetail";
 import DOMPurify from "isomorphic-dompurify";
 import { toast } from "react-toastify";
 import AntiSpamFilter from "../../utils/antiSpamFilter"; // Import the filter
+import dayjs from "dayjs";
 
 // Create spam filter instance (you might want to move this to a context)
 const createSpamFilter = (isIdol) => {
@@ -82,7 +83,7 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(true);
+  const [allowChat, setAllowChat] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false); // Track if user is temporarily blocked
 
   const { isAuthenticated, user } = useAuth(); // Assuming user object has userId
@@ -248,32 +249,32 @@ export default function ChatBar({ ...rest }) {
     };
   }, [manualReconnect, currentHubConnection]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (
-  //       liveDetailData?.scheduleTime &&
-  //       dayjs().isAfter(
-  //         dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
-  //       )
-  //     ) {
-  //       setAllowChat(true);
-  //     }
-  //   }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (
+        liveDetailData?.scheduleTime &&
+        dayjs().isAfter(
+          dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
+        )
+      ) {
+        setAllowChat(true);
+      }
+    }, 1000);
 
-  //   if (liveDetailData?.isStreaming) {
-  //     setAllowChat(true);
-  //     clearInterval(interval);
-  //   }
+    if (liveDetailData?.isStreaming) {
+      setAllowChat(true);
+      clearInterval(interval);
+    }
 
-  //   if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
-  //     setAllowChat(false);
-  //     clearInterval(interval);
-  //   }
+    if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
+      setAllowChat(false);
+      clearInterval(interval);
+    }
 
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [liveDetailData, allowChat]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [liveDetailData, allowChat]);
 
   const ChatBarMemoized = useMemo(() => {
     const isInputDisabled = !allowChat || isBlocked;
