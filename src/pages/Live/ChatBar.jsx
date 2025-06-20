@@ -12,9 +12,23 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import { FaRegSmile } from "react-icons/fa";
 import useLiveDetail from "../../hooks/useLiveDetail";
-import dayjs from "dayjs";
 import DOMPurify from "isomorphic-dompurify";
 import { toast } from "react-toastify";
+import AntiSpamFilter from "../../utils/antiSpamFilter"; // Import the filter
+
+// Create spam filter instance (you might want to move this to a context)
+const createSpamFilter = (isIdol) => {
+  const spamFilter = new AntiSpamFilter({
+    maxRepeatedChars: 3,
+    maxRepeatedWords: 2,
+    maxEmojiSequence: 4,
+    maxMessageLength: isIdol ? 9999 : 100,
+    minTimeBetweenMessages: isIdol ? 500 : 1000,
+    maxSimilarMessages: 2,
+  });
+
+  return spamFilter;
+};
 
 function EmojiPickerCustom({ onPickEmoji, open, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,9 +82,10 @@ export default function ChatBar({ ...rest }) {
   const [isSendCode, setIsSendCode] = useState(false);
   const [message, setMessage] = useState("");
   const [isEmoOpen, setIsEmoOpen] = useState(false);
-  const [allowChat, setAllowChat] = useState(false);
+  const [allowChat, setAllowChat] = useState(true);
+  const [isBlocked, setIsBlocked] = useState(false); // Track if user is temporarily blocked
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth(); // Assuming user object has userId
   const {
     connectionStatus,
     sendChatMessage,
@@ -84,53 +99,93 @@ export default function ChatBar({ ...rest }) {
   const { isIdol } = useAuth();
   const { focus, blur } = useChatBarFocusActions();
 
+  const spamFilter = useMemo(() => createSpamFilter(isIdol), [isIdol]);
+
+  // Update spam filter config based on user type
+  useEffect(() => {
+    if (isIdol) {
+      spamFilter.config.maxMessageLength = 9999;
+      spamFilter.config.minTimeBetweenMessages = 500; // Idols can send faster
+    } else {
+      spamFilter.config.maxMessageLength = 100;
+      spamFilter.config.minTimeBetweenMessages = 1500;
+    }
+  }, [isIdol]);
+
   const toggleSendCode = useCallback(() => {
     setIsSendCode((state) => !state);
   }, []);
 
   const handleSendMessage = useCallback(() => {
-    const newMsg = DOMPurify.sanitize(message).replace(/\n/g, "<br/>").trim();
-    const isOnlySpace = message.replace(/\s/g, "").length === 0;
+    // Get user ID (you might need to adjust this based on your auth structure)
+    const userId = user?.id || localStorage.getItem("userId") || "anonymous";
+
+    // Pre-process message
+    const rawMessage = message.trim();
+    const sanitizedMessage = DOMPurify.sanitize(rawMessage);
+
+    // Check if message is only spaces
+    const isOnlySpace = rawMessage.replace(/\s/g, "").length === 0;
     if (isOnlySpace) {
       toast.error("Vui lòng nhập tin nhắn");
       return;
     }
 
+    // Apply anti-spam filter
+    const filterResult = spamFilter.filterMessage(sanitizedMessage, userId);
+
+    if (filterResult.isSpam) {
+      // Show error message to user
+      toast.error(`Tin nhắn bị chặn: ${filterResult.reasons.join(", ")}`);
+
+      // Optionally implement temporary blocking for repeat offenders
+      if (filterResult.reasons.includes("Gửi tin nhắn quá nhanh")) {
+        setIsBlocked(true);
+        setTimeout(() => setIsBlocked(false), 5000); // Block for 5 seconds
+      }
+
+      return;
+    }
+
+    // Process the filtered message
+    const finalMessage = filterResult.filteredText.replace(/\n/g, "<br/>");
+
     if (!isSendCode) {
-      sendChatMessage({ hub: id, message: newMsg });
+      sendChatMessage({ hub: id, message: finalMessage });
       setMessage("");
     } else {
-      sendCode({ hub: id, message: newMsg });
+      sendCode({ hub: id, message: finalMessage });
       setMessage("");
       toggleSendCode();
     }
     setIsEmoOpen(false);
-  }, [message, sendChatMessage, sendCode, id, toggleSendCode, isSendCode]);
+  }, [
+    message,
+    sendChatMessage,
+    sendCode,
+    id,
+    toggleSendCode,
+    isSendCode,
+    user,
+    spamFilter,
+  ]);
 
   const handleFocus = useCallback(() => {
     if (window.innerWidth <= 768) {
-      // Store current scroll position
       const scrollY = window.scrollY;
-
-      // Apply scroll lock to body
       document.body.style.overflow = "hidden";
       document.body.style.position = "fixed";
       document.body.style.width = "100%";
-      document.body.style.top = `-${scrollY}px`; // Works for both iOS and Android
-
+      document.body.style.top = `-${scrollY}px`;
       focus();
 
       const input = document.activeElement;
       const handleBlur = () => {
-        // Remove scroll lock
         document.body.style.overflow = "";
         document.body.style.position = "";
         document.body.style.width = "";
         document.body.style.top = "";
-
-        // Restore scroll position for both platforms
         window.scrollTo(0, scrollY);
-
         input.removeEventListener("blur", handleBlur);
       };
       input.addEventListener("blur", handleBlur);
@@ -140,6 +195,28 @@ export default function ChatBar({ ...rest }) {
   const handlePickEmoji = useCallback((emo) => {
     setMessage((prev) => prev + emo);
   }, []);
+
+  // Real-time message validation as user types
+  const handleMessageChange = useCallback(
+    (e) => {
+      const newMessage = e.target.value;
+      setMessage(newMessage);
+
+      // Optional: Show warning if message might be spam
+      if (newMessage.length > 50) {
+        // Only check longer messages to avoid constant checking
+        const userId =
+          user?.id || localStorage.getItem("userId") || "anonymous";
+        const preCheck = spamFilter.filterMessage(newMessage, userId);
+
+        if (preCheck.isSpam && preCheck.reasons.length > 0) {
+          // You could show a subtle warning here
+          console.warn("Message might be blocked:", preCheck.reasons);
+        }
+      }
+    },
+    [user, spamFilter]
+  );
 
   useEffect(() => {
     if (!connectionStatus) {
@@ -171,39 +248,48 @@ export default function ChatBar({ ...rest }) {
     };
   }, [manualReconnect, currentHubConnection]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (
-        liveDetailData?.scheduleTime &&
-        dayjs().isAfter(
-          dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
-        )
-      ) {
-        setAllowChat(true);
-      }
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (
+  //       liveDetailData?.scheduleTime &&
+  //       dayjs().isAfter(
+  //         dayjs(liveDetailData.scheduleTime).subtract(10, "minute")
+  //       )
+  //     ) {
+  //       setAllowChat(true);
+  //     }
+  //   }, 1000);
 
-    if (liveDetailData?.isStreaming) {
-      setAllowChat(true);
-      clearInterval(interval);
-    }
+  //   if (liveDetailData?.isStreaming) {
+  //     setAllowChat(true);
+  //     clearInterval(interval);
+  //   }
 
-    if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
-      setAllowChat(false);
-      clearInterval(interval);
-    }
+  //   if (!liveDetailData?.isStreaming && !liveDetailData?.scheduleTime) {
+  //     setAllowChat(false);
+  //     clearInterval(interval);
+  //   }
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [liveDetailData, allowChat]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [liveDetailData, allowChat]);
 
   const ChatBarMemoized = useMemo(() => {
+    const isInputDisabled = !allowChat || isBlocked;
+    const placeholderText = isBlocked
+      ? "Bạn đang bị tạm khóa do spam..."
+      : allowChat
+      ? "Nói chuyện với streamer"
+      : "Bạn chưa thể chat lúc này";
+
     return (
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSendMessage();
+          if (!isBlocked) {
+            handleSendMessage();
+          }
         }}
         onMouseEnter={() => !isAuthenticated && setShowForceLogin(true)}
         onMouseLeave={() => setShowForceLogin(false)}
@@ -218,12 +304,8 @@ export default function ChatBar({ ...rest }) {
                 maxLength={9999}
                 type="text"
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={
-                  allowChat
-                    ? "Nói chuyện với streamer"
-                    : "Bạn chưa thể chat lúc này"
-                }
+                onChange={handleMessageChange}
+                placeholder={placeholderText}
                 className={`flex-1 
                 bg-[#F1F1F1] 
                 hover:bg-[#F1F1F1]
@@ -235,9 +317,10 @@ export default function ChatBar({ ...rest }) {
                 px-3 py-1.5 
                 text-black
                 placeholder-black
+                ${isBlocked ? "opacity-50" : ""}
                 `}
                 classNames={{
-                  textarea: "placeholder-black ",
+                  textarea: "placeholder-black",
                   count: "!text-[var(--color-brand-primary)]",
                 }}
                 onPressEnter={(e) => {
@@ -245,11 +328,11 @@ export default function ChatBar({ ...rest }) {
                   if (e.shiftKey) {
                     let newMessage = `${message}\n`;
                     setMessage(newMessage);
-                  } else {
+                  } else if (!isBlocked) {
                     handleSendMessage();
                   }
                 }}
-                disabled={!allowChat}
+                disabled={isInputDisabled}
               />
             )}
 
@@ -261,12 +344,8 @@ export default function ChatBar({ ...rest }) {
                 maxLength={100}
                 type="text"
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={
-                  allowChat
-                    ? "Nói chuyện với streamer"
-                    : "Bạn chưa thể chat lúc này"
-                }
+                onChange={handleMessageChange}
+                placeholder={placeholderText}
                 className={`flex-1 
                 bg-[#F1F1F1] 
                 hover:bg-[#F1F1F1]
@@ -278,11 +357,12 @@ export default function ChatBar({ ...rest }) {
                 px-3 py-1.5 
                 text-black
                 placeholder-black
+                ${isBlocked ? "opacity-50" : ""}
                 `}
                 classNames={{
                   textarea: "placeholder-black",
                 }}
-                disabled={!allowChat}
+                disabled={isInputDisabled}
               />
             )}
 
@@ -290,8 +370,11 @@ export default function ChatBar({ ...rest }) {
               {isIdol && (
                 <button
                   type="button"
-                  className="text-[var(--color-brand-primary)]"
+                  className={`text-[var(--color-brand-primary)] ${
+                    isBlocked ? "opacity-50" : ""
+                  }`}
                   onClick={toggleSendCode}
+                  disabled={isBlocked}
                 >
                   {isSendCode ? (
                     <BsPinAngleFill size={20} />
@@ -309,7 +392,10 @@ export default function ChatBar({ ...rest }) {
 
               <button
                 type="submit"
-                className="text-[var(--color-brand-primary)]"
+                className={`text-[var(--color-brand-primary)] ${
+                  isBlocked ? "opacity-50" : ""
+                }`}
+                disabled={isBlocked}
               >
                 <IoSendSharp size={20} />
               </button>
@@ -353,6 +439,8 @@ export default function ChatBar({ ...rest }) {
     isEmoOpen,
     handlePickEmoji,
     allowChat,
+    isBlocked,
+    handleMessageChange,
   ]);
 
   return ChatBarMemoized;

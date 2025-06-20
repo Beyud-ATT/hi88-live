@@ -12,43 +12,70 @@ import moment from "moment/moment";
 import useScrollDirection from "../../hooks/useScrollDirection";
 import useMobileKeyboardOpen from "../../hooks/useMobileKeyboardOpen";
 import { chatHeightSetting } from "../../utils/constant";
-import { detectUrls } from "../../utils/helper";
 import { Flex } from "antd";
+import UnifiedTextProcessor from "../../utils/textProcessor";
 
-function ShowMore({ message, show, ...rest }) {
+const textProcessor = new UnifiedTextProcessor({
+  maxLineBreaks: 2,
+  maxSpaces: 2,
+  preserveEmojis: true,
+  preserveLinks: true,
+  processMentions: true,
+  processHashtags: false,
+  linkStyle: "text-blue-500 hover:text-blue-700 underline cursor-pointer",
+  emojiStyle: "inline-block align-middle",
+});
+
+function ShowMore({
+  message,
+  show,
+  messageType = "normal",
+  isSpecial = false,
+  ...rest
+}) {
   const [showMore, setShowMore] = useState(false);
   const messageLength = 30;
-  const messageHasBreak = String(message).includes("<br/>");
+
+  // Process the message
+  const processedMessage = textProcessor.processForDisplay(message, {
+    isSpecial,
+    messageType,
+  });
+
+  const messageHasBreak = String(processedMessage).includes("<br/>");
   let truncatedMessage = "";
 
   if (messageHasBreak) {
-    truncatedMessage = String(message)
+    truncatedMessage = String(processedMessage)
       .replaceAll("<br/>", "_")
       .split("_")
       .at(0)
       .concat("...");
   } else {
     truncatedMessage =
-      String(message).length <= messageLength
-        ? String(message).replaceAll("<br/>", " ")
-        : String(message).slice(0, messageLength).concat("...");
+      String(processedMessage).length <= messageLength
+        ? String(processedMessage).replaceAll("<br/>", " ")
+        : String(processedMessage).slice(0, messageLength).concat("...");
   }
+
+  const displayMessage = (show !== undefined ? show : showMore)
+    ? processedMessage
+    : truncatedMessage;
+  const messageClasses = textProcessor.getMessageClasses(
+    messageType,
+    isSpecial
+  );
 
   return (
     <span
-      className="space-x-1 cursor-pointer text-[#9C9C9C]"
+      className={`space-x-1 cursor-pointer ${messageClasses}`}
       onClick={(e) => {
         e.stopPropagation();
         setShowMore((state) => !state);
       }}
+      dangerouslySetInnerHTML={{ __html: displayMessage }}
       {...rest}
-    >
-      {(show !== undefined ? show : showMore) ? (
-        <span>{message}</span>
-      ) : (
-        <span>{truncatedMessage}</span>
-      )}
-    </span>
+    />
   );
 }
 
@@ -62,9 +89,18 @@ function PinnedMessage() {
 
   const { newPinnedMsg, resetNewPinnedMsg } = useSignalR();
 
-  const URLs = detectUrls(messages[currentMessageIndex]);
+  const currentMessage = messages[currentMessageIndex];
+  const processedMessage = textProcessor.processForDisplay(currentMessage, {
+    messageType: "special",
+    isSpecial: true,
+  });
+
+  const URLs = textProcessor.detectUrls(currentMessage || "");
+
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(URLs);
+    if (URLs.length > 0) {
+      navigator.clipboard.writeText(URLs[0]);
+    }
   }, [URLs]);
 
   const handleMessageClick = useCallback(
@@ -92,7 +128,6 @@ function PinnedMessage() {
       setMessages((prev) => [...prev, newPinnedMsg]);
       setCurrentMessageIndex((prev) => prev + 1);
     }
-
     resetNewPinnedMsg();
   }, [newPinnedMsg, resetNewPinnedMsg]);
 
@@ -108,8 +143,11 @@ function PinnedMessage() {
               <span className="flex-shrink-0">{currentMessageIndex + 1}. </span>
               <div className="overflow-hidden">
                 <ShowMore
-                  message={messages[currentMessageIndex]}
+                  message={currentMessage}
                   show={show}
+                  textProcessor={textProcessor}
+                  messageType="special"
+                  isSpecial={true}
                   style={{ color: "#E71818" }}
                 />
               </div>
@@ -138,7 +176,7 @@ function PinnedMessage() {
                   className="m-1 cursor-pointer"
                   onClick={handleCopy}
                 >
-                  <FaCopy className="text-[#E71818] text-lg  cursor-pointer" />
+                  <FaCopy className="text-[#E71818] text-lg cursor-pointer" />
                 </button>
               )}
             </Flex>
@@ -155,17 +193,24 @@ function WarningAndPinnedComment() {
             cảm sẽ bị chặn. Hội viên chú ý giữ an toàn tài sản của bạn vui lòng
             không chuyển tiền riêng để tránh bị lừa đảo.`;
 
+  const processedMessage = textProcessor.processForDisplay(message, {
+    messageType: "system",
+  });
+
   return (
     <>
       <div className="p-2">
         <p className="text-[var(--color-brand-primary-lighter)] space-x-1 text-justify">
           <span className="space-x-1">
-            {/* <FaBell className="inline-block p-1 rounded-full text-xl bg-gray-400 -translate-y-0.5" /> */}
             <span className="text-[var(--color-brand-primary)] font-bold">
               Hệ thống:
             </span>
           </span>
-          <ShowMore message={message} />
+          <ShowMore
+            message={message}
+            textProcessor={textProcessor}
+            messageType="system"
+          />
         </p>
       </div>
 
@@ -215,6 +260,7 @@ function ChatFrame({ ...rest }) {
 
     return messages;
   }, [comments, id, resetLiveMessages]);
+
   const messages = useMemo(() => getMessages(), [getMessages]);
 
   const scrollToBottom = useCallback(() => {
@@ -262,7 +308,9 @@ function ChatFrame({ ...rest }) {
       className={`text-white ${chatHeightSetting} flex flex-col p-2 overflow-auto h-[50dvh]`}
       {...rest}
     >
-      {!isMobileKeyboardOpen && <WarningAndPinnedComment />}
+      {!isMobileKeyboardOpen && (
+        <WarningAndPinnedComment textProcessor={textProcessor} />
+      )}
 
       <div ref={commentsContainerRef} className="overflow-y-auto">
         <div className="p-2 space-y-3">
@@ -270,6 +318,25 @@ function ChatFrame({ ...rest }) {
             ?.filter((comment) => !bannedChatIds.includes(comment?.userId))
             ?.map((comment, index) => {
               const isSpecial = comment.isSpecial;
+              const isOwn = comment.userId === curretUserId;
+
+              // Process the message with unified text processor
+              const processedMessage = textProcessor.processForDisplay(
+                comment.message,
+                {
+                  isSpecial,
+                  isOwn,
+                  messageType: isSpecial ? "special" : "normal",
+                }
+              );
+
+              const usernameClasses =
+                textProcessor.getUsernameClasses(isSpecial);
+              const messageClasses = textProcessor.getMessageClasses(
+                isSpecial ? "special" : "normal",
+                isSpecial,
+                isOwn
+              );
 
               return (
                 <div
@@ -277,11 +344,7 @@ function ChatFrame({ ...rest }) {
                   className="flex justify-between"
                 >
                   <div className="flex gap-1">
-                    <div
-                      className={`flex gap-0.5 text-[#0655FF] text-sm font-medium mb-1 ${
-                        isSpecial ? "!text-[#FF6699] font-bold" : ""
-                      }`}
-                    >
+                    <div className={usernameClasses}>
                       <span>
                         {comment.displayName?.length > 15
                           ? comment.displayName?.slice(0, 15)?.concat("...")
@@ -293,12 +356,9 @@ function ChatFrame({ ...rest }) {
                       <span>:</span>
                     </div>
                     <div
-                      className={`text-black text-xs leading-relaxed ${
-                        isSpecial ? "!text-[#FF6699] font-semibold" : ""
-                      } break-all`}
-                    >
-                      {comment.message}
-                    </div>
+                      className={messageClasses}
+                      dangerouslySetInnerHTML={{ __html: processedMessage }}
+                    />
                   </div>
                   <div className="text-gray-400 cursor-pointer">
                     {comment.userId !== curretUserId && !isSpecial && (
@@ -332,13 +392,14 @@ function ChatInterface({ hideInput, ...rest }) {
       {...rest}
     >
       <ChatFrame
+        textProcessor={textProcessor}
         style={{
           borderRadius: `${isMobile ? "8px 8px 0 0" : "none"}`,
         }}
       />
       {!hideInput && (
         <div className={`py-3 px-2 ${isMobile && "rounded-b-lg"}`}>
-          <ChatBar />
+          <ChatBar textProcessor={textProcessor} />
         </div>
       )}
     </div>
@@ -411,28 +472,36 @@ function BareChatFrame() {
       <div className="p-2 space-y-3">
         {comments.map((comment, index) => {
           const isSpecial = comment.isSpecial;
+
+          // Process message with unified text processor
+          const processedMessage = textProcessor.processForDisplay(
+            comment.message,
+            {
+              isSpecial,
+              messageType: isSpecial ? "special" : "normal",
+            }
+          );
+
+          const usernameClasses = textProcessor.getUsernameClasses(isSpecial);
+          const messageClasses = textProcessor
+            .getMessageClasses(isSpecial ? "special" : "normal", isSpecial)
+            .replace("text-xs", "text-xl"); // Adjust for bare chat frame
+
           return (
             <div
               key={`${comment.id}_${index}`}
               className="flex justify-between text-xl"
             >
               <div className="flex gap-1">
-                <div
-                  className={`flex gap-0.5 text-[#0655FF] font-medium mb-1 ${
-                    isSpecial ? "!text-[#FF6699] font-bold" : ""
-                  }`}
-                >
+                <div className={usernameClasses.replace("text-sm", "text-xl")}>
                   <span>{comment.displayName}</span>
                   {isSpecial && <FaCrown className="rotate-45" />}
                   <span>:</span>
                 </div>
                 <div
-                  className={`text-black leading-relaxed ${
-                    isSpecial ? "!text-[#FF6699] font-bold" : ""
-                  } break-all`}
-                >
-                  {comment.message}
-                </div>
+                  className={messageClasses}
+                  dangerouslySetInnerHTML={{ __html: processedMessage }}
+                />
               </div>
             </div>
           );
